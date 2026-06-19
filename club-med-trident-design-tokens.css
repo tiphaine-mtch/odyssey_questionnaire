@@ -1,0 +1,173 @@
+/**
+ * Club Med Trident Design System - Design Tokens
+ * Extracted from Figma: Ody-Trident Ψ 2.0
+ * Date: 2026-06-16
+ */
+
+:root {
+  /* ==========================================================================
+     PRIMITIVE COLORS - Brand Colors
+     ========================================================================== */
+
+  --color-brand-black-coal: #000000;
+  --color-brand-ultramarine-blue: rgb(30, 38, 67);
+  --color-brand-lavander-blue: rgb(158, 174, 244);
+  --color-brand-verdigris: rgb(172, 190, 185);
+  --color-brand-sand: rgb(213, 205, 194);
+  --color-brand-light-sand: rgb(246, 239, 231);
+  --color-brand-saffran-yellow: rgb(253, 190, 0);
+  --color-brand-sienna: rgb(157, 67, 44);
+
+  /* Chinese Colors */
+  --color-chinese-blue-wave: rgb(0, 128, 125);
+  --color-chinese-marigold: rgb(251, 145, 0);
+
+  /* Layout Colors */
+  --color-layout-middle-grey: rgb(102, 102, 102);
+  --color-layout-grey: rgb(153, 153, 153);
+  --color-layout-light-grey: rgb(204, 204, 204);
+  --color-layout-pearl: rgb(248, 248, 248);
+  --color-layout-cloud-white: rgb(255, 255, 255);
+  --color-layout-green: rgb(8, 138, 32);
+  --color-layout-red: rgb(191, 47, 23);
+  --color-layout-orange: rgb(199, 83, 0);
+
+  /* ==========================================================================
+     SEMANTIC COLORS - Light Mode
+     ========================================================================== */
+
+  /* Content */
+  --color-content-primary: var(--color-brand-black-coal);
+  --color-content-secondary: rgb(128, 128, 128); /* Calculated from Secondary */
+  --color-content-primary-inverse: var(--color-layout-cloud-white);
+  --color-content-secondary-inverse: var(--color-layout-pearl);
+  --color-content-disabled: var(--color-layout-grey);
+  --color-content-notice: var(--color-layout-orange);
+  --color-content-negative: var(--color-layout-red);
+  --color-content-positive: var(--color-layout-green);
+
+  /* Background */
+  --color-background-primary: var(--color-brand-saffran-yellow);
+  --color-background-primary-disabled: rgb(255, 230, 153);
+  --color-background-secondary: var(--color-brand-black-coal);
+  --color-background-secondary-rollover: rgb(128, 128, 128);
+  --color-background-secondary-inverse: var(--color-layout-cloud-white);
+  --color-background-secondary-inverse-rollover: var(--color-layout-pearl);
+  --color-background-tertiary: var(--color-brand-sienna);
+  --color-background-tertiary-rollover: rgb(166, 82, 58);
+  --color-background-exclusive-collection: var(--color-brand-ultramarine-blue);
+
+  /* Surface */
+  --color-surface-primary: var(--color-layout-cloud-white);
+  --color-surface-secondary: var(--color-layout-pearl);
+  --color-surface-tertiary: var(--color-brand-light-sand);
+  --color-surface-brand: var(--color-brand-saffran-yellow);
+
+  /* Border */
+  --color-border-primary: var(--color-brand-black-coal);
+  --color-border-primary-inverse: var(--color-layout-cloud-white);
+  --color-border-secondary: var(--color-layout-light-grey);
+  --color-border-disabled: var(--color-layout-grey);
+  --color-border-notice: var(--color-layout-orange);
+
+  /* ==========================================================================
+     TYPOGRAPHY
+     ========================================================================== */
+
+  /* Font Families */
+  --font-family-heading: 'Newsreader', serif;
+  --font-family-body: 'Inter', sans-serif;
+
+  /* Font Weights */
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Font Sizes */
+  --font-size-heading-h5: 24px;
+  --font-size-body-b2: 20px;
+
+  /* Line Heights */
+  --line-height-heading-h5: 26px;
+  --line-height-body-b0: 32px;
+  --line-height-body-b2: 28px;
+  --line-height-body-b3: 24px;
+  --line-height-body-b4: 20px;
+
+  /* ==========================================================================
+     SPACING
+     ========================================================================== */
+
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-s: 12px;
+  --spacing-s-m: 16px;
+  --spacing-m: 20px;
+  --spacing-m-l: 24px;
+  --spacing-l: 32px;
+  --spacing-xl: 40px;
+  --spacing-xxl: 80px;
+
+  /* ==========================================================================
+     RADIUS / BORDER RADIUS
+     ========================================================================== */
+
+  --radius-m: 16px;
+  --radius-xl: 100px;
+
+  /* ==========================================================================
+     CLUB MED LOYALTY PROGRAM (Statuts fidélité)
+     ========================================================================== */
+
+  --color-loyalty-turquoise: #40E0D0;
+  --color-loyalty-silver: #C0C0C0;
+  --color-loyalty-gold: #FFD700;
+  --color-loyalty-platinum: #E5E4E2;
+
+  /* ==========================================================================
+     COMMON COMPONENT STYLES
+     ========================================================================== */
+
+  /* Typography Presets */
+  --text-heading-h5: var(--font-weight-semibold) var(--font-size-heading-h5)/var(--line-height-heading-h5) var(--font-family-heading);
+  --text-body-b2: var(--font-weight-regular) var(--font-size-body-b2)/var(--line-height-body-b2) var(--font-family-body);
+
+  /* Shadows (common for calendars) */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-elevated: 0 4px 16px rgba(0, 0, 0, 0.15);
+
+  /* Z-index layers */
+  --z-index-base: 1;
+  --z-index-dropdown: 100;
+  --z-index-sticky: 200;
+  --z-index-modal: 1000;
+  --z-index-popover: 1100;
+  --z-index-tooltip: 1200;
+}
+
+/* ==========================================================================
+   DARK MODE (optional - included for completeness)
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-content-primary: var(--color-layout-cloud-white);
+    --color-content-secondary: var(--color-layout-pearl);
+    --color-content-primary-inverse: var(--color-brand-black-coal);
+    --color-content-secondary-inverse: rgb(128, 128, 128);
+
+    --color-background-secondary: var(--color-layout-cloud-white);
+    --color-background-secondary-rollover: var(--color-layout-pearl);
+    --color-background-secondary-inverse: var(--color-brand-black-coal);
+    --color-background-secondary-inverse-rollover: rgb(128, 128, 128);
+    --color-background-exclusive-collection: var(--color-layout-cloud-white);
+
+    --color-surface-primary: var(--color-brand-black-coal);
+    --color-surface-secondary: rgb(128, 128, 128);
+    --color-surface-tertiary: var(--color-brand-sand);
+
+    --color-border-primary: var(--color-layout-cloud-white);
+    --color-border-primary-inverse: var(--color-brand-black-coal);
+    --color-border-secondary: var(--color-layout-middle-grey);
+  }
+}

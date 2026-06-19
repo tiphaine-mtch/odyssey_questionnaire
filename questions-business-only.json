@@ -1,0 +1,627 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "lastUpdate": "2026-06-18",
+    "totalQuestions": 11,
+    "audience": "Experts opérationnels Club Med (Room Division Manager, Planning Manager, Produits & Services Manager)",
+    "scope": "Questions métier sur le calendrier des chambres et la gestion des réservations"
+  },
+  "sections": [
+    {
+      "id": "loyalty",
+      "icon": "👥",
+      "title": {"fr": "Programme Fidélité", "en": "Loyalty Program"},
+      "description": {"fr": "Règles de surclassement, late checkout, early check-in et annulation", "en": "Upgrade, late checkout, early check-in and cancellation rules"},
+      "questions": [
+        {
+          "id": "q1_1",
+          "number": "Q1",
+          "title": {"fr": "Surclassement automatique - Règles exactes", "en": "Automatic upgrade - Exact rules"},
+          "context": {"fr": "Actuellement: surclassement automatique si disponible pour Gold/Platinum", "en": "Current: automatic upgrade if available for Gold/Platinum"},
+          "items": [
+            {
+              "id": "q1_1_1",
+              "type": "radio",
+              "required": true,
+              "label": {"fr": "Le surclassement se fait-il toujours N+1 (catégorie immédiatement supérieure) ou peut sauter plusieurs niveaux ?", "en": "Is upgrade always N+1 (next category) or can skip multiple levels?"},
+              "options": [
+                {"value": "n_plus_1", "label": {"fr": "Toujours N+1 (ex: Supérieure → Deluxe)", "en": "Always N+1 (e.g.: Superior → Deluxe)"}},
+                {"value": "multiple", "label": {"fr": "Peut sauter plusieurs niveaux selon disponibilité", "en": "Can skip multiple levels based on availability"}},
+                {"value": "depends_status", "label": {"fr": "Dépend du statut (Gold=N+1, Platinum=N+2 possible)", "en": "Depends on status (Gold=N+1, Platinum=N+2 possible)"}}
+              ]
+            },
+            {
+              "id": "q1_1_2",
+              "type": "select",
+              "required": true,
+              "label": {"fr": "À quel moment exact le système doit vérifier la disponibilité pour le surclassement ?", "en": "At what exact moment should the system check availability for upgrade?"},
+              "options": [
+                {"value": "j_7", "label": {"fr": "J-7 (7 jours avant check-in)", "en": "D-7 (7 days before check-in)"}},
+                {"value": "j_3", "label": {"fr": "J-3 (3 jours avant check-in)", "en": "D-3 (3 days before check-in)"}},
+                {"value": "j_1", "label": {"fr": "J-1 (veille du check-in)", "en": "D-1 (day before check-in)"}},
+                {"value": "checkin", "label": {"fr": "Au moment du check-in", "en": "At check-in time)"}}
+              ]
+            },
+            {
+              "id": "q1_1_3",
+              "type": "radio",
+              "required": false,
+              "label": {"fr": "Si catégorie N+1 occupée mais N+2 libre (Platinum uniquement), que faire ?", "en": "If N+1 occupied but N+2 available (Platinum only), what to do?"},
+              "options": [
+                {"value": "auto_n2", "label": {"fr": "Surclassement automatique N+2", "en": "Automatic N+2 upgrade"}},
+                {"value": "proposition", "label": {"fr": "Proposition N+2 avec validation client", "en": "N+2 proposal with guest validation"}},
+                {"value": "manual", "label": {"fr": "Validation manuelle réception uniquement", "en": "Manual reception validation only"}}
+              ]
+            },
+            {
+              "id": "q1_1_4",
+              "type": "textarea",
+              "required": false,
+              "label": {"fr": "Comment gérer le surclassement pour les groupes/familles ayant des chambres communicantes ?", "en": "How to handle upgrade for groups/families with connecting rooms?"},
+              "placeholder": {"fr": "Ex: 2 Supérieures communicantes → 2 Deluxe communicantes obligatoire ? Ou peut séparer ?", "en": "E.g.: 2 connecting Superior → 2 connecting Deluxe mandatory? Or can separate?"}
+            }
+          ]
+        },
+        {
+          "id": "q1_2",
+          "number": "Q2",
+          "title": {"fr": "Late Check-out - Tarification exacte", "en": "Late Check-out - Exact pricing"},
+          "context": {"fr": "Gratuit Platinum 16h, Gold 14h. Besoin tarifs précis Silver/Turquoise", "en": "Free Platinum 16h, Gold 14h. Need exact Silver/Turquoise rates"},
+          "items": [
+            {
+              "id": "q1_2_1",
+              "type": "number",
+              "required": true,
+              "label": {"fr": "Tarif late checkout 14h pour Silver/Turquoise (en €)", "en": "Late checkout 14h rate for Silver/Turquoise (in €)"},
+              "unit": "€",
+              "placeholder": {"fr": "Ex: 30", "en": "E.g.: 30"}
+            },
+            {
+              "id": "q1_2_2_gold",
+              "type": "number",
+              "required": true,
+              "label": {"fr": "Tarif late checkout 16h pour Gold (en €)", "en": "Late checkout 16h rate for Gold (in €)"},
+              "unit": "€",
+              "note": {"fr": "Gold = gratuit 14h, mais payant 16h", "en": "Gold = free 14h, but paid 16h"}
+            },
+            {
+              "id": "q1_2_2_silver",
+              "type": "number",
+              "required": true,
+              "label": {"fr": "Tarif late checkout 16h pour Silver (en €)", "en": "Late checkout 16h rate for Silver (in €)"},
+              "unit": "€"
+            },
+            {
+              "id": "q1_2_2_turquoise",
+              "type": "number",
+              "required": true,
+              "label": {"fr": "Tarif late checkout 16h pour Turquoise (en €)", "en": "Late checkout 16h rate for Turquoise (in €)"},
+              "unit": "€"
+            },
+            {
+              "id": "q1_2_3_exists",
+              "type": "radio",
+              "required": true,
+              "label": {"fr": "Le late checkout 18h existe-t-il dans vos resorts ?", "en": "Does late checkout 18h exist in your resorts?"},
+              "options": [
+                {"value": "yes", "label": {"fr": "Oui", "en": "Yes"}},
+                {"value": "no", "label": {"fr": "Non, maximum 16h", "en": "No, maximum 16h"}}
+              ]
+            },
+            {
+              "id": "q1_2_3_price",
+              "type": "number",
+              "required": false,
+              "conditional": "q1_2_3_exists==yes",
+              "label": {"fr": "Si oui, tarif late checkout 18h (en €)", "en": "If yes, late checkout 18h rate (in €)"},
+              "unit": "€"
+            },
+            {
+              "id": "q1_2_4",
+              "type": "textarea",
+              "required": false,
+              "label": {"fr": "Que faire si late checkout demandé mais chambre réservée après (non disponible) ?", "en": "What to do if late checkout requested but room booked after (unavailable)?"},
+              "placeholder": {"fr": "Message exact + alternatives (bagagerie, douche, compensation Platinum...)", "en": "Exact message + alternatives (luggage storage, shower, Platinum compensation...)"}
+            }
+          ]
+        },
+        {
+          "id": "q1_3",
+          "number": "Q3",
+          "title": {"fr": "Early Check-in - Conditions exactes", "en": "Early Check-in - Exact conditions"},
+          "context": {"fr": "Early check-in gratuit Gold/Platinum si chambre disponible", "en": "Free early check-in Gold/Platinum if room available"},
+          "items": [
+            {
+              "id": "q1_3_1",
+              "type": "radio",
+              "required": true,
+              "label": {"fr": "Comment définir l'early check-in ?", "en": "How to define early check-in?"},
+              "options": [
+                {"value": "before_standard", "label": {"fr": "Toute arrivée avant l'horaire standard (15h/16h selon resort)", "en": "Any arrival before standard time (15h/16h per resort)"}},
+                {"value": "before_12h", "label": {"fr": "Seulement arrivée avant 12h", "en": "Only arrival before 12h"}},
+                {"value": "before_14h", "label": {"fr": "Seulement arrivée avant 14h", "en": "Only arrival before 14h"}}
+              ]
+            },
+            {
+              "id": "q1_3_2",
+              "type": "radio",
+              "required": true,
+              "label": {"fr": "Qui décide si la chambre est disponible pour early check-in ?", "en": "Who decides if room available for early check-in?"},
+              "options": [
+                {"value": "auto", "label": {"fr": "Système automatique si statut Clean", "en": "Automatic system if Clean status"}},
+                {"value": "reception", "label": {"fr": "Réception décide manuellement", "en": "Reception decides manually"}},
+                {"value": "hybrid", "label": {"fr": "Auto si Clean + validation réception", "en": "Auto if Clean + reception validation"}}
+              ]
+            },
+            {
+              "id": "q1_3_3",
+              "type": "number",
+              "required": false,
+              "label": {"fr": "Tarif early check-in pour Turquoise (en €)", "en": "Early check-in rate for Turquoise (in €)"},
+              "unit": "€",
+              "note": {"fr": "Gold/Platinum = gratuit, Silver = selon disponibilité", "en": "Gold/Platinum = free, Silver = based on availability"}
+            },
+            {
+              "id": "q1_3_4",
+              "type": "radio",
+              "required": false,
+              "label": {"fr": "Le déjeuner est-il automatiquement inclus si early check-in gratuit ?", "en": "Is lunch automatically included if early check-in is free?"},
+              "options": [
+                {"value": "yes_always", "label": {"fr": "Oui, automatiquement inclus", "en": "Yes, automatically included"}},
+                {"value": "no_supplement", "label": {"fr": "Non, supplément à part", "en": "No, separate charge"}},
+                {"value": "depends_resort", "label": {"fr": "Selon resort (Cefalù oui, autres non)", "en": "Per resort (Cefalù yes, others no)"}}
+              ]
+            }
+          ]
+        },
+        {
+          "id": "q1_4",
+          "number": "Q4",
+          "title": {"fr": "Politique Annulation - Délais exacts", "en": "Cancellation Policy - Exact deadlines"},
+          "context": {"fr": "Annulation gratuite Platinum J-7, Gold J-14. Besoin précisions", "en": "Free cancellation Platinum D-7, Gold D-14. Need clarification"},
+          "items": [
+            {
+              "id": "q1_4_1",
+              "type": "radio",
+              "required": true,
+              "label": {"fr": "Quand on dit 'J-7', cela signifie :", "en": "When we say 'D-7', it means:"},
+              "options": [
+                {"value": "calendar", "label": {"fr": "7 jours calendaires avant le check-in", "en": "7 calendar days before check-in"}},
+                {"value": "business", "label": {"fr": "7 jours ouvrés", "en": "7 business days"}},
+                {"value": "hours", "label": {"fr": "168 heures exactement (7×24h)", "en": "168 hours exactly (7×24h)"}}
+              ]
+            },
+            {
+              "id": "q1_4_2",
+              "type": "select",
+              "required": true,
+              "label": {"fr": "Heure limite pour annulation gratuite à J-7/J-14", "en": "Time limit for free cancellation at D-7/D-14"},
+              "options": [
+                {"value": "midnight", "label": {"fr": "Minuit (00h00) du jour J-7/J-14", "en": "Midnight (00h00) of day D-7/D-14"}},
+                {"value": "checkin_time", "label": {"fr": "Heure de check-in du resort (15h/16h)", "en": "Resort check-in time (15h/16h)"}},
+                {"value": "2359", "label": {"fr": "23h59 du jour J-7/J-14", "en": "23h59 of day D-7/D-14"}}
+              ]
+            },
+            {
+              "id": "q1_4_3",
+              "type": "textarea",
+              "required": false,
+              "label": {"fr": "Comment gérer l'annulation partielle d'un groupe ou d'une famille ?", "en": "How to handle partial group or family cancellation?"},
+              "placeholder": {"fr": "Ex: Annuler 1 personne sur 4 dans une chambre Famille, frais appliqués, réduction capacité...", "en": "E.g.: Cancel 1 out of 4 in Family room, fees applied, capacity reduction..."}
+            },
+            {
+              "id": "q1_4_4",
+              "type": "radio",
+              "required": true,
+              "label": {"fr": "En cas de no-show (non présentation), que facturer ?", "en": "In case of no-show, what to charge?"},
+              "options": [
+                {"value": "full", "label": {"fr": "100% du séjour complet", "en": "100% of full stay"}},
+                {"value": "first_night", "label": {"fr": "Première nuit seulement", "en": "First night only"}},
+                {"value": "depends_loyalty", "label": {"fr": "Dépend du statut fidélité", "en": "Depends on loyalty status"}}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "overbooking",
+      "icon": "📅",
+      "title": {"fr": "Gestion Overbooking", "en": "Overbooking Management"},
+      "description": {"fr": "Seuils, priorités et résolution des situations de surréservation", "en": "Thresholds, priorities and overbooking resolution"},
+      "questions": [
+        {
+          "id": "q2_1",
+          "number": "Q5",
+          "title": {"fr": "Seuils overbooking acceptables", "en": "Acceptable overbooking thresholds"},
+          "context": {"fr": "Règle : ne jamais overbooker Gold/Platinum", "en": "Rule: never overbook Gold/Platinum"},
+          "items": [
+            {
+              "id": "q2_1_1",
+              "type": "radio",
+              "required": true,
+              "label": {"fr": "L'overbooking volontaire est-il autorisé dans vos resorts ?", "en": "Is voluntary overbooking allowed in your resorts?"},
+              "options": [
+                {"value": "no", "label": {"fr": "Non, jamais d'overbooking volontaire", "en": "No, never voluntary overbooking"}},
+                {"value": "yes_105", "label": {"fr": "Oui, jusqu'à 105% de capacité", "en": "Yes, up to 105% capacity"}},
+                {"value": "yes_110", "label": {"fr": "Oui, jusqu'à 110% de capacité", "en": "Yes, up to 110% capacity"}},
+                {"value": "depends", "label": {"fr": "Dépend du resort et de la saison", "en": "Depends on resort and season"}}
+              ]
+            },
+            {
+              "id": "q2_1_2",
+              "type": "select",
+              "required": false,
+              "label": {"fr": "À quel seuil déclencher une alerte overbooking ?", "en": "At what threshold to trigger overbooking alert?"},
+              "options": [
+                {"value": "100", "label": {"fr": "100% (dès dépassement capacité)", "en": "100% (at capacity threshold)"}},
+                {"value": "102", "label": {"fr": "102%", "en": "102%"}},
+                {"value": "105", "label": {"fr": "105%", "en": "105%"}}
+              ]
+            },
+            {
+              "id": "q2_1_3",
+              "type": "checkbox",
+              "required": false,
+              "label": {"fr": "En cas d'overbooking involontaire (erreur), qui doit résoudre la situation ?", "en": "In case of involuntary overbooking (error), who should resolve?"},
+              "options": [
+                {"value": "reception", "label": {"fr": "Équipe Réception", "en": "Reception team"}},
+                {"value": "revenue", "label": {"fr": "Revenue Manager", "en": "Revenue Manager"}},
+                {"value": "director", "label": {"fr": "Directeur Resort", "en": "Resort Director"}}
+              ]
+            },
+            {
+              "id": "q2_1_4",
+              "type": "textarea",
+              "required": false,
+              "label": {"fr": "Quelle compensation standard en cas d'overbooking ?", "en": "What standard compensation for overbooking?"},
+              "placeholder": {"fr": "Ex: Surclassement + voucher 100€, ou transfert resort voisin + transport + compensation...", "en": "E.g.: Upgrade + 100€ voucher, or transfer to neighboring resort + transport + compensation..."}
+            }
+          ]
+        },
+        {
+          "id": "q2_2",
+          "number": "Q6",
+          "title": {"fr": "Ordre de priorité résolution overbooking", "en": "Overbooking resolution priority order"},
+          "context": {"fr": "Principe : déplacer Turquoise en priorité, jamais Gold/Platinum", "en": "Principle: move Turquoise first, never Gold/Platinum"},
+          "items": [
+            {
+              "id": "q2_2_1",
+              "type": "textarea",
+              "required": true,
+              "label": {"fr": "Confirmez l'ordre de priorité détaillé (du plus facile à déplacer au jamais déplacer)", "en": "Confirm detailed priority order (easiest to move to never move)"},
+              "placeholder": {"fr": "Ex: 1. Déplacer Turquoise, 2. Déplacer Silver, 3. Jamais Gold, 4. Jamais Platinum", "en": "E.g.: 1. Move Turquoise, 2. Move Silver, 3. Never Gold, 4. Never Platinum"}
+            },
+            {
+              "id": "q2_2_2",
+              "type": "radio",
+              "required": false,
+              "label": {"fr": "Si plusieurs clients Turquoise en conflit, lequel choisir de déplacer ?", "en": "If multiple Turquoise clients in conflict, which one to move?"},
+              "options": [
+                {"value": "recent", "label": {"fr": "Plus récente réservation", "en": "Most recent booking"}},
+                {"value": "shortest", "label": {"fr": "Séjour le plus court (moins de nuits)", "en": "Shortest stay (fewer nights)"}},
+                {"value": "manual", "label": {"fr": "Décision manuelle au cas par cas", "en": "Manual case-by-case decision"}}
+              ]
+            },
+            {
+              "id": "q2_2_3",
+              "type": "textarea",
+              "required": false,
+              "label": {"fr": "Compensation selon le statut du client déplacé", "en": "Compensation based on displaced client status"},
+              "placeholder": {"fr": "Ex: Turquoise déplacé = surclassement + 50€, Silver = surclassement + 100€...", "en": "E.g.: Turquoise moved = upgrade + 50€, Silver = upgrade + 100€..."}
+            },
+            {
+              "id": "q2_2_4",
+              "type": "radio",
+              "required": false,
+              "label": {"fr": "Si déplacement vers un autre resort Club Med nécessaire, le transport est-il offert ?", "en": "If transfer to another Club Med resort needed, is transport offered?"},
+              "options": [
+                {"value": "yes_always", "label": {"fr": "Oui, toujours offert", "en": "Yes, always offered"}},
+                {"value": "depends_distance", "label": {"fr": "Dépend de la distance", "en": "Depends on distance"}},
+                {"value": "no", "label": {"fr": "Non, à la charge du client", "en": "No, client's responsibility"}}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "housekeeping",
+      "icon": "🧹",
+      "title": {"fr": "Housekeeping & Chambres", "en": "Housekeeping & Rooms"},
+      "description": {"fr": "Cycle de nettoyage, maintenance et gestion des statuts chambres", "en": "Cleaning cycle, maintenance and room status management"},
+      "questions": [
+        {
+          "id": "q3_1",
+          "number": "Q7",
+          "title": {"fr": "Cycle Clean → Dirty → Clean", "en": "Clean → Dirty → Clean cycle"},
+          "context": {"fr": "Workflow après check-out 10h jusqu'à chambre Clean", "en": "Workflow from 10h check-out until Clean room"},
+          "items": [
+            {
+              "id": "q3_1_1",
+              "type": "radio",
+              "required": true,
+              "label": {"fr": "Après check-out 10h, quand la chambre passe-t-elle en statut Dirty ?", "en": "After 10h check-out, when does room become Dirty status?"},
+              "options": [
+                {"value": "auto_immediate", "label": {"fr": "Automatiquement à 10h", "en": "Automatically at 10h"}},
+                {"value": "after_inspection", "label": {"fr": "Après inspection de départ par la réception", "en": "After departure inspection by reception"}},
+                {"value": "manual", "label": {"fr": "Validation manuelle réception/gouvernante", "en": "Manual reception/housekeeper validation"}}
+              ]
+            },
+            {
+              "id": "q3_1_2",
+              "type": "radio",
+              "required": true,
+              "label": {"fr": "Qui valide le passage de Inspected à Clean ?", "en": "Who validates Inspected to Clean transition?"},
+              "options": [
+                {"value": "head_housekeeper", "label": {"fr": "Gouvernante chef uniquement", "en": "Head housekeeper only"}},
+                {"value": "housekeeper", "label": {"fr": "Femme de chambre peut valider", "en": "Housekeeper can validate"}},
+                {"value": "quality_check", "label": {"fr": "Contrôle qualité systématique", "en": "Systematic quality control"}},
+                {"value": "quality_random", "label": {"fr": "Contrôle qualité aléatoire", "en": "Random quality control"}}
+              ]
+            },
+            {
+              "id": "q3_1_3",
+              "type": "number",
+              "required": false,
+              "label": {"fr": "Délai standard de nettoyage d'une chambre (en minutes)", "en": "Standard room cleaning time (in minutes)"},
+              "unit": "min",
+              "placeholder": {"fr": "Ex: 30, 45, 60", "en": "E.g.: 30, 45, 60"}
+            },
+            {
+              "id": "q3_1_4",
+              "type": "textarea",
+              "required": false,
+              "label": {"fr": "Comment gérer le conflit entre priorité fidélité (Platinum) et urgence timing (arrivée Turquoise 16h) ?", "en": "How to handle conflict between loyalty priority (Platinum) and timing urgency (Turquoise arrival 16h)?"},
+              "placeholder": {"fr": "Ex: Platinum prioritaire toujours, ou si arrivée imminente Turquoise passe en priorité...", "en": "E.g.: Platinum always priority, or if imminent Turquoise arrival becomes priority..."}
+            }
+          ]
+        },
+        {
+          "id": "q3_2",
+          "number": "Q8",
+          "title": {"fr": "Maintenance & Chambres bloquées", "en": "Maintenance & Blocked rooms"},
+          "context": {"fr": "Statut Bloqué pour maintenance ou travaux", "en": "Blocked status for maintenance or work"},
+          "items": [
+            {
+              "id": "q3_2_1",
+              "type": "checkbox",
+              "required": true,
+              "label": {"fr": "Qui peut bloquer une chambre pour maintenance ?", "en": "Who can block a room for maintenance?"},
+              "options": [
+                {"value": "reception", "label": {"fr": "Réception", "en": "Reception"}},
+                {"value": "maintenance", "label": {"fr": "Équipe Maintenance", "en": "Maintenance team"}},
+                {"value": "revenue", "label": {"fr": "Revenue Manager", "en": "Revenue Manager"}},
+                {"value": "director", "label": {"fr": "Directeur Resort", "en": "Resort Director"}}
+              ]
+            },
+            {
+              "id": "q3_2_2",
+              "type": "number",
+              "required": false,
+              "label": {"fr": "Préavis minimum avant blocage d'une chambre (en jours, sauf urgence)", "en": "Minimum notice before blocking room (in days, except emergency)"},
+              "unit": "jours",
+              "placeholder": {"fr": "Ex: 3, 7, 14", "en": "E.g.: 3, 7, 14"}
+            },
+            {
+              "id": "q3_2_3",
+              "type": "radio",
+              "required": false,
+              "label": {"fr": "Si une chambre bloquée a une réservation existante, que fait le système ?", "en": "If blocked room has existing booking, what does system do?"},
+              "options": [
+                {"value": "auto_suggest", "label": {"fr": "Suggestion automatique de réaffectation", "en": "Automatic reassignment suggestion"}},
+                {"value": "alert_only", "label": {"fr": "Alerte seulement, gestion manuelle", "en": "Alert only, manual handling"}},
+                {"value": "prevent", "label": {"fr": "Empêche le blocage si résa existante", "en": "Prevents blocking if booking exists"}}
+              ]
+            },
+            {
+              "id": "q3_2_4",
+              "type": "textarea",
+              "required": false,
+              "label": {"fr": "Avez-vous un système de maintenance (CMMS) intégré au PMS ?", "en": "Do you have a maintenance system (CMMS) integrated with PMS?"},
+              "placeholder": {"fr": "Nom du système, intégration existante, notifications...", "en": "System name, existing integration, notifications..."}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "groups",
+      "icon": "🏢",
+      "title": {"fr": "Groupes & Événements", "en": "Groups & Events"},
+      "description": {"fr": "Gestion des réservations de groupe (5+ chambres)", "en": "Group booking management (5+ rooms)"},
+      "questions": [
+        {
+          "id": "q4_1",
+          "number": "Q9",
+          "title": {"fr": "Gestion des groupes", "en": "Group management"},
+          "context": {"fr": "Définition et gestion des réservations de groupe", "en": "Group booking definition and management"},
+          "items": [
+            {
+              "id": "q4_1_1",
+              "type": "radio",
+              "required": true,
+              "label": {"fr": "À partir de combien de chambres considérez-vous une réservation comme 'groupe' ?", "en": "From how many rooms do you consider a booking as 'group'?"},
+              "options": [
+                {"value": "5", "label": {"fr": "5 chambres", "en": "5 rooms"}},
+                {"value": "10", "label": {"fr": "10 chambres", "en": "10 rooms"}},
+                {"value": "20_people", "label": {"fr": "20 personnes (indépendamment du nombre de chambres)", "en": "20 people (regardless of room count)"}}
+              ]
+            },
+            {
+              "id": "q4_1_2",
+              "type": "radio",
+              "required": false,
+              "label": {"fr": "Y a-t-il une remise automatique pour les groupes ?", "en": "Is there automatic discount for groups?"},
+              "options": [
+                {"value": "yes_auto", "label": {"fr": "Oui, remise automatique (ex: -10% si 10+ chambres)", "en": "Yes, automatic discount (e.g.: -10% if 10+ rooms)"}},
+                {"value": "negotiated", "label": {"fr": "Remise personnalisée selon négociation", "en": "Custom discount based on negotiation"}},
+                {"value": "no", "label": {"fr": "Non, pas de remise automatique", "en": "No automatic discount"}}
+              ]
+            },
+            {
+              "id": "q4_1_3",
+              "type": "radio",
+              "required": false,
+              "label": {"fr": "Les chambres d'un groupe doivent-elles être proches géographiquement ?", "en": "Should group rooms be geographically close?"},
+              "options": [
+                {"value": "same_floor", "label": {"fr": "Même étage si possible", "en": "Same floor if possible"}},
+                {"value": "proximity", "label": {"fr": "Proximité (pas forcément même étage)", "en": "Proximity (not necessarily same floor)"}},
+                {"value": "no_requirement", "label": {"fr": "Pas d'exigence particulière", "en": "No special requirement"}}
+              ]
+            },
+            {
+              "id": "q4_1_4",
+              "type": "radio",
+              "required": false,
+              "label": {"fr": "Comment gérer le check-in d'un groupe ?", "en": "How to handle group check-in?"},
+              "options": [
+                {"value": "bulk", "label": {"fr": "Check-in groupé (toutes chambres en une fois)", "en": "Bulk check-in (all rooms at once)"}},
+                {"value": "leader", "label": {"fr": "Leader groupe check-in + distribution clés", "en": "Group leader check-in + key distribution"}},
+                {"value": "individual", "label": {"fr": "Check-in individuel pour chaque chambre", "en": "Individual check-in for each room"}}
+              ]
+            },
+            {
+              "id": "q4_1_5",
+              "type": "textarea",
+              "required": false,
+              "label": {"fr": "Comment gérer l'annulation partielle d'un groupe ?", "en": "How to handle partial group cancellation?"},
+              "placeholder": {"fr": "Ex: 3 chambres annulées sur 10, frais par chambre ou forfait groupe, délai...", "en": "E.g.: 3 rooms cancelled out of 10, fees per room or group package, deadline..."}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "notifications",
+      "icon": "📬",
+      "title": {"fr": "Notifications & Communication", "en": "Notifications & Communication"},
+      "description": {"fr": "Emails automatiques clients et alertes équipe interne", "en": "Automatic guest emails and internal team alerts"},
+      "questions": [
+        {
+          "id": "q5_1",
+          "number": "Q10",
+          "title": {"fr": "Emails automatiques clients", "en": "Automatic guest emails"},
+          "context": {"fr": "Confirmation, rappels, remerciements", "en": "Confirmation, reminders, thank you"},
+          "items": [
+            {
+              "id": "q5_1_1",
+              "type": "checkbox",
+              "required": true,
+              "label": {"fr": "Email de confirmation réservation - Que doit-il contenir ?", "en": "Booking confirmation email - What should it contain?"},
+              "options": [
+                {"value": "booking_ref", "label": {"fr": "Numéro de réservation", "en": "Booking reference"}},
+                {"value": "dates", "label": {"fr": "Dates de séjour", "en": "Stay dates"}},
+                {"value": "price", "label": {"fr": "Prix total", "en": "Total price"}},
+                {"value": "cancellation", "label": {"fr": "Conditions d'annulation", "en": "Cancellation terms"}},
+                {"value": "pdf", "label": {"fr": "PDF attaché", "en": "PDF attached"}},
+                {"value": "activities", "label": {"fr": "Activités disponibles au resort", "en": "Available resort activities"}}
+              ]
+            },
+            {
+              "id": "q5_1_2",
+              "type": "select",
+              "required": false,
+              "label": {"fr": "Email rappel J-7 - À quelle heure l'envoyer ?", "en": "D-7 reminder email - At what time to send?"},
+              "options": [
+                {"value": "09h", "label": {"fr": "9h du matin", "en": "9am"}},
+                {"value": "12h", "label": {"fr": "12h (midi)", "en": "12pm (noon)"}},
+                {"value": "18h", "label": {"fr": "18h (soir)", "en": "6pm (evening)"}}
+              ]
+            },
+            {
+              "id": "q5_1_3",
+              "type": "checkbox",
+              "required": false,
+              "label": {"fr": "Email rappel J-1 - Que doit-il contenir ?", "en": "D-1 reminder email - What should it contain?"},
+              "options": [
+                {"value": "reminder", "label": {"fr": "Rappel dates et horaires check-in", "en": "Dates and check-in time reminder"}},
+                {"value": "weather", "label": {"fr": "Météo prévue", "en": "Weather forecast"}},
+                {"value": "late_checkout", "label": {"fr": "Proposition late checkout (Gold/Platinum)", "en": "Late checkout offer (Gold/Platinum)"}},
+                {"value": "directions", "label": {"fr": "Itinéraire vers le resort", "en": "Resort directions"}},
+                {"value": "activities", "label": {"fr": "Activités à réserver à l'avance", "en": "Activities to book in advance"}}
+              ]
+            },
+            {
+              "id": "q5_1_4",
+              "type": "radio",
+              "required": false,
+              "label": {"fr": "Envoyez-vous un email de remerciement post-séjour (J+3) ?", "en": "Do you send post-stay thank you email (D+3)?"},
+              "options": [
+                {"value": "yes", "label": {"fr": "Oui, automatique", "en": "Yes, automatic"}},
+                {"value": "no", "label": {"fr": "Non", "en": "No"}}
+              ]
+            },
+            {
+              "id": "q5_1_5",
+              "type": "radio",
+              "required": false,
+              "label": {"fr": "Email de surclassement - Quand l'envoyer ?", "en": "Upgrade email - When to send?"},
+              "options": [
+                {"value": "immediate", "label": {"fr": "Immédiatement dès surclassement confirmé", "en": "Immediately upon confirmed upgrade"}},
+                {"value": "j_1", "label": {"fr": "J-1 avec le rappel", "en": "D-1 with reminder"}},
+                {"value": "checkin", "label": {"fr": "Au check-in (effet surprise)", "en": "At check-in (surprise effect)"}}
+              ]
+            }
+          ]
+        },
+        {
+          "id": "q5_2",
+          "number": "Q11",
+          "title": {"fr": "Notifications internes équipe", "en": "Internal team notifications"},
+          "context": {"fr": "Alertes pour réception, gouvernante, revenue manager", "en": "Alerts for reception, housekeeping, revenue manager"},
+          "items": [
+            {
+              "id": "q5_2_1",
+              "type": "checkbox",
+              "required": true,
+              "label": {"fr": "Arrivée client Platinum - Qui doit être notifié ?", "en": "Platinum guest arrival - Who should be notified?"},
+              "options": [
+                {"value": "reception", "label": {"fr": "Réception", "en": "Reception"}},
+                {"value": "concierge", "label": {"fr": "Concierge", "en": "Concierge"}},
+                {"value": "head_housekeeper", "label": {"fr": "Gouvernante chef", "en": "Head housekeeper"}},
+                {"value": "revenue", "label": {"fr": "Revenue Manager", "en": "Revenue Manager"}},
+                {"value": "director", "label": {"fr": "Directeur Resort", "en": "Resort Director"}}
+              ]
+            },
+            {
+              "id": "q5_2_2",
+              "type": "radio",
+              "required": false,
+              "label": {"fr": "Format préféré pour les notifications internes", "en": "Preferred format for internal notifications"},
+              "options": [
+                {"value": "email", "label": {"fr": "Email uniquement", "en": "Email only"}},
+                {"value": "sms", "label": {"fr": "SMS uniquement", "en": "SMS only"}},
+                {"value": "in_app", "label": {"fr": "Notification dans le PMS uniquement", "en": "PMS notification only"}},
+                {"value": "multiple", "label": {"fr": "Multi-canal (email + SMS + in-app)", "en": "Multi-channel (email + SMS + in-app)"}}
+              ]
+            },
+            {
+              "id": "q5_2_3",
+              "type": "select",
+              "required": false,
+              "label": {"fr": "No-show - À quelle heure déclencher l'alerte si pas de check-in ?", "en": "No-show - At what time to trigger alert if no check-in?"},
+              "options": [
+                {"value": "20h", "label": {"fr": "20h (fin horaire check-in)", "en": "20h (end check-in time)"}},
+                {"value": "22h", "label": {"fr": "22h", "en": "22h"}},
+                {"value": "midnight", "label": {"fr": "Minuit", "en": "Midnight"}},
+                {"value": "next_morning", "label": {"fr": "Lendemain matin 8h", "en": "Next morning 8h"}}
+              ]
+            },
+            {
+              "id": "q5_2_4",
+              "type": "select",
+              "required": false,
+              "label": {"fr": "Chambre pas Clean le jour d'arrivée - À quelle heure alerter ?", "en": "Room not Clean on arrival day - At what time to alert?"},
+              "options": [
+                {"value": "12h", "label": {"fr": "12h (mi-journée)", "en": "12h (midday)"}},
+                {"value": "14h", "label": {"fr": "14h (2h avant check-in standard)", "en": "14h (2h before standard check-in)"}},
+                {"value": "15h", "label": {"fr": "15h/16h (1h avant check-in)", "en": "15h/16h (1h before check-in)"}}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
