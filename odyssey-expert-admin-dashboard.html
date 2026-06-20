@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Questionnaire Experts</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Newsreader:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="club-med-trident-design-tokens.css">
+    <link rel="stylesheet" href="responsive-dark-mode.css">
+
+    <style>
+        :root {
+            /* Light mode colors */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --bg-tertiary: #e8e8e8;
+            --text-primary: #000000;
+            --text-secondary: #666666;
+            --text-inverse: #ffffff;
+            --border-color: #e0e0e0;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Dark mode */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #1a1a1a;
+                --bg-secondary: #2d2d2d;
+                --bg-tertiary: #3d3d3d;
+                --text-primary: #ffffff;
+                --text-secondary: #b0b0b0;
+                --text-inverse: #000000;
+                --border-color: #404040;
+                --shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        body.dark-mode {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-tertiary: #3d3d3d;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-inverse: #000000;
+            --border-color: #404040;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family-body);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .header {
+            background: var(--color-brand-ultramarine-blue);
+            color: var(--color-content-primary-inverse);
+            padding: var(--spacing-m-l);
+            box-shadow: var(--shadow-elevated);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        .logo {
+            font-family: var(--font-family-heading);
+            font-size: clamp(20px, 5vw, 28px);
+            font-weight: 700;
+        }
+
+        .tagline-admin {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: var(--spacing-xxs);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: var(--spacing-m);
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .header-actions {
+                flex-direction: column;
+                width: 100%;
+                margin-top: var(--spacing-s);
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-l);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-m);
+            margin-bottom: var(--spacing-l);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stat-card {
+            background: var(--bg-primary);
+            padding: var(--spacing-m-l);
+            border-radius: var(--radius-m);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .stat-subtext {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: var(--spacing-xs);
+        }
+
+        .tab-nav {
+            display: flex;
+            gap: var(--spacing-s);
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: var(--spacing-l);
+            overflow-x: auto;
+        }
+
+        @media (max-width: 768px) {
+            .tab-nav {
+                gap: var(--spacing-xs);
+            }
+        }
+
+        .tab-button {
+            padding: var(--spacing-m) var(--spacing-l);
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-family: var(--font-family-body);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            .tab-button {
+                padding: var(--spacing-s) var(--spacing-m);
+                font-size: 13px;
+            }
+        }
+
+        .tab-button.active {
+            color: var(--color-brand-saffran-yellow);
+            border-bottom-color: var(--color-brand-saffran-yellow);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .expert-list {
+            background: var(--bg-primary);
+            border-radius: var(--radius-m);
+            box-shadow: var(--shadow);
+        }
+
+        .expert-item {
+            display: grid;
+            grid-template-columns: 1fr 150px 150px 150px 120px 80px;
+            padding: var(--spacing-m);
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+        }
+
+        @media (max-width: 1024px) {
+            .expert-item {
+                grid-template-columns: 1fr 100px 80px;
+            }
+            .expert-item > *:nth-child(3),
+            .expert-item > *:nth-child(4) {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .expert-item {
+                grid-template-columns: 1fr 60px;
+                gap: var(--spacing-s);
+            }
+            .expert-item > *:nth-child(3),
+            .expert-item > *:nth-child(4),
+            .expert-item > *:nth-child(5) {
+                display: none;
+            }
+        }
+
+        .expert-item:last-child {
+            border-bottom: none;
+        }
+
+        .expert-info {
+            display: flex;
+            gap: var(--spacing-m);
+            align-items: center;
+        }
+
+        .expert-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--color-brand-saffran-yellow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .expert-details h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+            color: var(--text-primary);
+        }
+
+        .expert-details p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: var(--radius-xl);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-resort {
+            background: #FFF3CD;
+            color: #856404;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .badge-resort {
+                background: #3d3520;
+                color: #ffd54f;
+            }
+        }
+
+        .badge-bu {
+            background: #E3F2FD;
+            color: #1976D2;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .badge-bu {
+                background: #1a2a3a;
+                color: #64B5F6;
+            }
+        }
+
+        .badge-siege {
+            background: #F3E5F5;
+            color: #7B1FA2;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .badge-siege {
+                background: #2a1a2a;
+                color: #BA68C8;
+            }
+        }
+
+        .progress-bar-mini {
+            width: 100%;
+            height: 6px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+        }
+
+        .progress-fill-mini {
+            height: 100%;
+            background: var(--color-brand-saffran-yellow);
+        }
+
+        .question-comparison-card {
+            background: var(--color-surface-primary);
+            border-radius: var(--radius-m);
+            padding: var(--spacing-m-l);
+            margin-bottom: var(--spacing-m);
+            box-shadow: var(--shadow-card);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--spacing-m);
+        }
+
+        .question-title {
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .answer-count {
+            font-size: 12px;
+            color: var(--color-content-secondary);
+        }
+
+        .answers-grid {
+            display: grid;
+            gap: var(--spacing-s);
+        }
+
+        .answer-item {
+            padding: var(--spacing-s);
+            background: var(--color-surface-secondary);
+            border-radius: var(--radius-m);
+            border-left: 3px solid var(--color-border-secondary);
+        }
+
+        .answer-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .expert-name {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .answer-text {
+            font-size: 13px;
+            color: var(--color-content-primary);
+        }
+
+        .btn {
+            padding: var(--spacing-s) var(--spacing-m-l);
+            border: none;
+            border-radius: var(--radius-m);
+            font-family: var(--font-family-body);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #FDBE00;
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            background: #e5ab00;
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .btn {
+                width: 100%;
+                padding: var(--spacing-s);
+            }
+        }
+
+        .export-section {
+            background: var(--bg-primary);
+            padding: var(--spacing-l);
+            border-radius: var(--radius-m);
+            box-shadow: var(--shadow);
+        }
+
+        .export-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-m);
+            margin-top: var(--spacing-m);
+        }
+
+        @media (max-width: 768px) {
+            .export-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .export-option {
+            padding: var(--spacing-m);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-m);
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+            background: var(--bg-primary);
+        }
+
+        .export-option:hover {
+            border-color: #FDBE00;
+            background: var(--bg-tertiary);
+        }
+
+        .export-icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-s);
+        }
+
+        .export-title {
+            font-weight: 700;
+            margin-bottom: var(--spacing-xs);
+            color: var(--text-primary);
+        }
+
+        .export-description {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .filter-bar {
+            background: var(--bg-primary);
+            padding: var(--spacing-m);
+            border-radius: var(--radius-m);
+            margin-bottom: var(--spacing-m);
+            display: flex;
+            gap: var(--spacing-m);
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        .filter-input {
+            flex: 1;
+            padding: var(--spacing-s);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-m);
+            font-family: var(--font-family-body);
+            font-size: 14px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
+            .filter-input {
+                width: 100%;
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
+        }
+
+        .filter-select {
+            padding: var(--spacing-s);
+            border: 2px solid var(--border-color);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border-radius: var(--radius-m);
+            font-family: var(--font-family-body);
+            font-size: 14px;
+            min-width: 150px;
+        }
+
+        .alert {
+            padding: var(--spacing-m);
+            border-radius: var(--radius-m);
+            margin-bottom: var(--spacing-m);
+            display: flex;
+            gap: var(--spacing-s);
+        }
+
+        .alert-success {
+            background: #D1F4E0;
+            color: var(--color-layout-green);
+        }
+
+        .alert-warning {
+            background: #FFF3CD;
+            color: var(--color-chinese-marigold);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--color-surface-primary);
+            border-radius: var(--radius-m);
+            padding: var(--spacing-l);
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-m);
+        }
+
+        .modal-title {
+            font-family: var(--font-family-heading);
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .btn-close {
+            background: transparent;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+        }
+
+        .btn-delete {
+            background: transparent;
+            border: 2px solid var(--color-content-negative);
+            color: var(--color-content-negative);
+            padding: var(--spacing-xs) var(--spacing-s);
+            border-radius: var(--radius-m);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-delete:hover {
+            background: var(--color-content-negative);
+            color: white;
+        }
+
+        .response-detail {
+            background: var(--color-surface-secondary);
+            padding: var(--spacing-m);
+            border-radius: var(--radius-m);
+            margin-bottom: var(--spacing-s);
+        }
+
+        .response-question {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--color-content-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .response-answer {
+            font-size: 14px;
+            color: var(--color-content-primary);
+            padding: var(--spacing-s);
+            background: var(--color-surface-primary);
+            border-radius: var(--radius-s);
+            border-left: 3px solid var(--color-brand-saffran-yellow);
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: var(--radius-xl);
+            font-size: 11px;
+            font-weight: 600;
+            background: #E3F2FD;
+            color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div>
+                <div class="logo">☀️ Odyssey - Admin Dashboard</div>
+                <div class="tagline-admin">Gestion des réponses experts - Calendrier des Chambres</div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="window.open('odyssey-questionnaire-experts.html', '_blank')">
+                    Voir le questionnaire
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Statistics Dashboard -->
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <div class="stat-label">Experts actifs</div>
+                <div class="stat-value" id="totalExperts">0</div>
+                <div class="stat-subtext">Sur 48 questions</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Réponses collectées</div>
+                <div class="stat-value" id="totalAnswers">0</div>
+                <div class="stat-subtext">Progression globale</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Taux complétion</div>
+                <div class="stat-value" id="completionRate">0%</div>
+                <div class="stat-subtext">Toutes questions</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Questions clarifiées</div>
+                <div class="stat-value" id="clarificationCount">0</div>
+                <div class="stat-subtext">Demandes expertes</div>
+            </div>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="tab-nav">
+            <button class="tab-button active" onclick="switchTab('experts')">👥 Experts</button>
+            <button class="tab-button" onclick="switchTab('responses')">📊 Réponses</button>
+            <button class="tab-button" onclick="switchTab('export')">📥 Export & Validation</button>
+        </div>
+
+        <!-- Tab: Experts -->
+        <div class="tab-content active" id="tab-experts">
+            <div class="filter-bar">
+                <input type="text" class="filter-input" placeholder="Rechercher un expert..." id="expertSearch">
+                <select class="filter-select" id="filterLocation">
+                    <option value="">Toutes localisations</option>
+                    <option value="resort">Resort</option>
+                    <option value="business_unit">Business Unit</option>
+                    <option value="siege">Siège</option>
+                </select>
+                <select class="filter-select" id="filterCompletion">
+                    <option value="">Tous statuts</option>
+                    <option value="complete">Complétés (>80%)</option>
+                    <option value="partial">En cours (20-80%)</option>
+                    <option value="started">Démarrés (<20%)</option>
+                </select>
+            </div>
+
+            <div class="expert-list" id="expertList">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+
+        <!-- Tab: Responses -->
+        <div class="tab-content" id="tab-responses">
+            <div class="filter-bar">
+                <select class="filter-select" id="filterCategory">
+                    <option value="">Toutes catégories</option>
+                    <option value="business">Business</option>
+                    <option value="design">Design</option>
+                    <option value="tech">Tech</option>
+                </select>
+                <select class="filter-select" id="filterAnswered">
+                    <option value="">Tous statuts</option>
+                    <option value="answered">Répondues</option>
+                    <option value="unanswered">Non répondues</option>
+                </select>
+            </div>
+
+            <div id="responsesContainer">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+
+        <!-- Tab: Export -->
+        <div class="tab-content" id="tab-export">
+            <div class="export-section">
+                <h2 style="margin-bottom: var(--spacing-m);">📥 Exporter les données</h2>
+                <p style="margin-bottom: var(--spacing-m); color: var(--color-content-secondary);">
+                    Téléchargez les réponses des experts pour les intégrer dans vos maquettes, user stories, ou documents de règles métier.
+                </p>
+
+                <div class="export-grid">
+                    <div class="export-option" onclick="exportData('json')">
+                        <div class="export-icon">📄</div>
+                        <div class="export-title">Format JSON</div>
+                        <div class="export-description">Pour intégration technique dans les maquettes</div>
+                    </div>
+
+                    <div class="export-option" onclick="exportData('csv')">
+                        <div class="export-icon">📊</div>
+                        <div class="export-title">Format CSV</div>
+                        <div class="export-description">Pour analyse dans Excel / Google Sheets</div>
+                    </div>
+
+                    <div class="export-option" onclick="exportData('markdown')">
+                        <div class="export-icon">📝</div>
+                        <div class="export-title">Format Markdown</div>
+                        <div class="export-description">Pour mise à jour règles métier / US</div>
+                    </div>
+
+                    <div class="export-option" onclick="exportData('summary')">
+                        <div class="export-icon">📋</div>
+                        <div class="export-title">Rapport Synthèse</div>
+                        <div class="export-description">Vue consolidée par question</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="export-section" style="margin-top: var(--spacing-l);">
+                <h2 style="margin-bottom: var(--spacing-m);">✅ Valider & Mettre à jour</h2>
+                <p style="margin-bottom: var(--spacing-m); color: var(--color-content-secondary);">
+                    Une fois validées par l'équipe produit, les réponses peuvent être intégrées automatiquement dans les documents de règles métier.
+                </p>
+
+                <div class="alert alert-warning">
+                    <span>⚠️</span>
+                    <div>
+                        <strong>Attention :</strong> Cette action mettra à jour les fichiers suivants :
+                        <ul style="margin-top: var(--spacing-xs); margin-left: var(--spacing-m);">
+                            <li>club-med-loyalty-program.md</li>
+                            <li>odyssey-calendar-specifications.html</li>
+                            <li>regles-metier-capacites.md</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <button class="btn btn-success" onclick="validateAndUpdate()" style="margin-top: var(--spacing-m);">
+                    ✅ Valider et mettre à jour les règles métier
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for expert details -->
+    <div class="modal" id="expertModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalExpertName">Expert Details</h2>
+                <button class="btn-close" onclick="closeModal()">×</button>
+            </div>
+            <div id="modalExpertContent">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load data from localStorage
+        let submissions = JSON.parse(localStorage.getItem('odyssey_submissions') || '[]');
+
+        // Initialize dashboard
+        function initDashboard() {
+            updateStatistics();
+            renderExpertList();
+            renderResponses();
+        }
+
+        function updateStatistics() {
+            const totalExperts = submissions.length;
+            const totalAnswers = submissions.reduce((acc, sub) => {
+                return acc + Object.keys(sub.answers).filter(k => sub.answers[k] && sub.answers[k] !== '').length;
+            }, 0);
+
+            const totalQuestions = 48; // Based on questions-en-suspens.md
+            const completionRate = submissions.length > 0
+                ? Math.round((totalAnswers / (totalQuestions * submissions.length)) * 100)
+                : 0;
+
+            const clarificationCount = submissions.reduce((acc, sub) => {
+                return acc + Object.keys(sub.answers).filter(k => k.includes('_comment') && sub.answers[k]).length;
+            }, 0);
+
+            document.getElementById('totalExperts').textContent = totalExperts;
+            document.getElementById('totalAnswers').textContent = totalAnswers;
+            document.getElementById('completionRate').textContent = completionRate + '%';
+            document.getElementById('clarificationCount').textContent = clarificationCount;
+        }
+
+        function renderExpertList() {
+            const container = document.getElementById('expertList');
+
+            if (submissions.length === 0) {
+                container.innerHTML = '<div style="padding: var(--spacing-l); text-align: center; color: var(--color-content-secondary);">Aucune réponse pour le moment</div>';
+                return;
+            }
+
+            const expertHTML = submissions.map(sub => {
+                const answeredCount = Object.keys(sub.answers).filter(k => !k.includes('_comment') && sub.answers[k] && sub.answers[k] !== '').length;
+                const totalQuestions = 48;
+                const percentage = Math.round((answeredCount / totalQuestions) * 100);
+
+                const initials = sub.expert.name.split(' ').map(n => n[0]).join('').toUpperCase();
+
+                let locationBadge = '';
+                if (sub.expert.location === 'resort') {
+                    locationBadge = `<span class="badge badge-resort">${sub.expert.resort || 'Resort'}</span>`;
+                } else if (sub.expert.location === 'business_unit') {
+                    const buLabel = getBULabel(sub.expert.businessUnit);
+                    locationBadge = `<span class="badge badge-bu">${buLabel}</span>`;
+                } else {
+                    locationBadge = `<span class="badge badge-siege">Siège Social</span>`;
+                }
+
+                const roleLabel = getRoleLabel(sub.expert.role);
+
+                return `
+                    <div class="expert-item">
+                        <div class="expert-info">
+                            <div class="expert-avatar">${initials}</div>
+                            <div class="expert-details">
+                                <h4>${sub.expert.name}</h4>
+                                <p class="role-badge">${roleLabel}</p>
+                            </div>
+                        </div>
+                        <div>${locationBadge}</div>
+                        <div>
+                            <div style="font-size: 12px; color: var(--color-content-secondary); margin-bottom: 4px;">
+                                ${answeredCount} / ${totalQuestions} réponses
+                            </div>
+                            <div class="progress-bar-mini">
+                                <div class="progress-fill-mini" style="width: ${percentage}%"></div>
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <strong>${percentage}%</strong>
+                        </div>
+                        <div>
+                            <button class="btn btn-secondary" onclick="viewExpert('${sub.id}')">Voir détails</button>
+                        </div>
+                        <div>
+                            <button class="btn-delete" onclick="deleteSubmission('${sub.id}')">🗑️</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = expertHTML;
+        }
+
+        function renderResponses() {
+            const container = document.getElementById('responsesContainer');
+
+            if (submissions.length === 0) {
+                container.innerHTML = '<div style="padding: var(--spacing-l); text-align: center; color: var(--color-content-secondary);">Aucune réponse pour le moment</div>';
+                return;
+            }
+
+            // Group answers by question
+            const questionMap = {};
+            submissions.forEach(sub => {
+                Object.keys(sub.answers).forEach(key => {
+                    if (!key.includes('_comment')) {
+                        const questionId = key.split('_').slice(0, 2).join('_');
+                        if (!questionMap[questionId]) {
+                            questionMap[questionId] = [];
+                        }
+                        if (sub.answers[key]) {
+                            questionMap[questionId].push({
+                                expert: sub.expert.name,
+                                answer: sub.answers[key],
+                                comment: sub.answers[key + '_comment'] || ''
+                            });
+                        }
+                    }
+                });
+            });
+
+            const responsesHTML = Object.keys(questionMap).map(questionId => {
+                const answers = questionMap[questionId];
+
+                const answersHTML = answers.map(a => `
+                    <div class="answer-item">
+                        <div class="answer-meta">
+                            <span class="expert-name">${a.expert}</span>
+                        </div>
+                        <div class="answer-text">${a.answer}</div>
+                        ${a.comment ? `<div style="margin-top: var(--spacing-xs); font-size: 12px; color: var(--color-content-secondary);">💬 ${a.comment}</div>` : ''}
+                    </div>
+                `).join('');
+
+                return `
+                    <div class="question-comparison-card">
+                        <div class="question-header">
+                            <div class="question-title">${questionId.toUpperCase()}</div>
+                            <div class="answer-count">${answers.length} réponse(s)</div>
+                        </div>
+                        <div class="answers-grid">
+                            ${answersHTML}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = responsesHTML || '<div style="padding: var(--spacing-l); text-align: center; color: var(--color-content-secondary);">Aucune réponse pour le moment</div>';
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            event.target.classList.add('active');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+        }
+
+        function getRoleLabel(role) {
+            const roleMap = {
+                'room_division_manager': 'Room Division Manager',
+                'planning_manager': 'Planning Manager',
+                'produits_services_manager': 'Produits & Services Manager',
+                'other': 'Autre'
+            };
+            return roleMap[role] || role;
+        }
+
+        function getBULabel(bu) {
+            const buMap = {
+                'EMEA': 'EMEA',
+                'ESAP': 'ESAP',
+                'NAM': 'NAM',
+                'SAM': 'SAM'
+            };
+            return buMap[bu] || bu || 'BU';
+        }
+
+        function getQuestionLabel(key) {
+            const questionLabels = {
+                'q1_1': 'Surclassement automatique',
+                'q1_2': 'Late Check-out tarification',
+                'q1_1_1': 'Niveau de surclassement',
+                'q1_1_2': 'Moment de vérification disponibilité',
+                'q1_1_3': 'Surclassement N+2 pour Platinum',
+                'q1_2_1': 'Tarif late checkout 14h (Silver/Turquoise)',
+                'q1_2_2_gold': 'Tarif late checkout 16h Gold',
+                'q1_2_2_silver': 'Tarif late checkout 16h Silver',
+                'q1_2_2_turquoise': 'Tarif late checkout 16h Turquoise',
+                'q1_2_3_exists': 'Late checkout 18h existe',
+                'q1_2_3_price': 'Prix late checkout 18h'
+            };
+            return questionLabels[key] || key;
+        }
+
+        function formatAnswer(key, value) {
+            // Format radio button values
+            const formatMap = {
+                'n_plus_1': 'Toujours N+1',
+                'multiple': 'Peut sauter plusieurs niveaux',
+                'depends': 'Dépend du statut',
+                'j_7': 'J-7 (7 jours avant)',
+                'j_3': 'J-3 (3 jours avant)',
+                'j_1': 'J-1 (veille)',
+                'checkin': 'Au moment du check-in',
+                'auto_n2': 'Surclassement automatique N+2',
+                'proposition': 'Proposition avec validation',
+                'manual': 'Validation manuelle uniquement',
+                'yes': 'Oui',
+                'no': 'Non'
+            };
+
+            // If numeric value (price), add € symbol
+            if (!isNaN(value) && value !== '') {
+                return value + ' €';
+            }
+
+            return formatMap[value] || value;
+        }
+
+        function viewExpert(submissionId) {
+            const submission = submissions.find(s => s.id === submissionId);
+            if (!submission) return;
+
+            document.getElementById('modalExpertName').textContent = submission.expert.name;
+
+            const roleLabel = getRoleLabel(submission.expert.role);
+            const locationLabel = submission.expert.location === 'resort' ? submission.expert.resort :
+                                 submission.expert.location === 'business_unit' ? getBULabel(submission.expert.businessUnit) :
+                                 'Siège Social';
+
+            const contentHTML = `
+                <div style="margin-bottom: var(--spacing-m); padding: var(--spacing-m); background: var(--color-brand-light-sand); border-radius: var(--radius-m);">
+                    <strong>Rôle:</strong> ${roleLabel}<br>
+                    <strong>Localisation:</strong> ${locationLabel}<br>
+                    <strong>Date soumission:</strong> ${new Date(submission.submittedAt).toLocaleString('fr-FR')}
+                </div>
+                <h3 style="margin-bottom: var(--spacing-m);">Réponses détaillées</h3>
+                <div style="max-height: 400px; overflow-y: auto;">
+                    ${Object.keys(submission.answers)
+                        .filter(k => !k.includes('_comment') && submission.answers[k])
+                        .map(key => `
+                        <div class="response-detail">
+                            <div class="response-question">${getQuestionLabel(key)}</div>
+                            <div class="response-answer">${formatAnswer(key, submission.answers[key])}</div>
+                            ${submission.answers[key + '_comment'] ?
+                                `<div style="margin-top: var(--spacing-xs); font-size: 12px; color: var(--color-content-secondary); font-style: italic;">
+                                    💬 ${submission.answers[key + '_comment']}
+                                </div>` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            document.getElementById('modalExpertContent').innerHTML = contentHTML;
+            document.getElementById('expertModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('expertModal').classList.remove('active');
+        }
+
+        function deleteSubmission(submissionId) {
+            if (!confirm('Êtes-vous sûr de vouloir supprimer cette réponse ? Cette action est irréversible.')) {
+                return;
+            }
+
+            // Remove from submissions array
+            submissions = submissions.filter(s => s.id !== submissionId);
+
+            // Update localStorage
+            localStorage.setItem('odyssey_submissions', JSON.stringify(submissions));
+
+            // Refresh dashboard
+            initDashboard();
+
+            alert('✅ Réponse supprimée avec succès.');
+        }
+
+        function exportData(format) {
+            const timestamp = new Date().toISOString().split('T')[0];
+
+            if (format === 'json') {
+                const blob = new Blob([JSON.stringify(submissions, null, 2)], { type: 'application/json' });
+                downloadBlob(blob, `odyssey-experts-data-${timestamp}.json`);
+            } else if (format === 'csv') {
+                let csv = 'Expert,Rôle,Localisation,Question,Réponse,Commentaire\n';
+                submissions.forEach(sub => {
+                    const roleLabel = getRoleLabel(sub.expert.role);
+                    const locationLabel = sub.expert.location === 'resort' ? sub.expert.resort :
+                                         sub.expert.location === 'business_unit' ? getBULabel(sub.expert.businessUnit) :
+                                         'Siège';
+                    Object.keys(sub.answers).forEach(key => {
+                        if (!key.includes('_comment') && sub.answers[key]) {
+                            const comment = sub.answers[key + '_comment'] || '';
+                            csv += `"${sub.expert.name}","${roleLabel}","${locationLabel}","${getQuestionLabel(key)}","${formatAnswer(key, sub.answers[key])}","${comment}"\n`;
+                        }
+                    });
+                });
+                const blob = new Blob([csv], { type: 'text/csv' });
+                downloadBlob(blob, `odyssey-experts-data-${timestamp}.csv`);
+            } else if (format === 'markdown') {
+                let md = `# Réponses Experts - Odyssey PMS\n\n**Date export:** ${new Date().toLocaleString('fr-FR')}\n\n`;
+
+                submissions.forEach(sub => {
+                    const roleLabel = getRoleLabel(sub.expert.role);
+                    const locationLabel = sub.expert.location === 'resort' ? sub.expert.resort :
+                                         sub.expert.location === 'business_unit' ? getBULabel(sub.expert.businessUnit) :
+                                         'Siège';
+                    md += `## ${sub.expert.name} (${roleLabel} - ${locationLabel})\n\n`;
+                    Object.keys(sub.answers).forEach(key => {
+                        if (!key.includes('_comment') && sub.answers[key]) {
+                            md += `### ${getQuestionLabel(key)}\n\n${formatAnswer(key, sub.answers[key])}\n\n`;
+                            if (sub.answers[key + '_comment']) {
+                                md += `> 💬 ${sub.answers[key + '_comment']}\n\n`;
+                            }
+                        }
+                    });
+                });
+
+                const blob = new Blob([md], { type: 'text/markdown' });
+                downloadBlob(blob, `odyssey-experts-data-${timestamp}.md`);
+            } else if (format === 'summary') {
+                // Generate consolidated summary by question
+                const questionMap = {};
+                submissions.forEach(sub => {
+                    Object.keys(sub.answers).forEach(key => {
+                        if (!key.includes('_comment') && sub.answers[key]) {
+                            if (!questionMap[key]) {
+                                questionMap[key] = [];
+                            }
+                            questionMap[key].push({
+                                expert: sub.expert.name,
+                                answer: sub.answers[key],
+                                comment: sub.answers[key + '_comment'] || ''
+                            });
+                        }
+                    });
+                });
+
+                let summary = `# Rapport de Synthèse - Questionnaire Experts\n\n**Date:** ${new Date().toLocaleString('fr-FR')}\n**Experts:** ${submissions.length}\n\n`;
+
+                Object.keys(questionMap).forEach(questionId => {
+                    summary += `## ${getQuestionLabel(questionId)}\n\n`;
+                    summary += `**Réponses:** ${questionMap[questionId].length}\n\n`;
+                    questionMap[questionId].forEach(answer => {
+                        summary += `- **${answer.expert}:** ${formatAnswer(questionId, answer.answer)}\n`;
+                        if (answer.comment) {
+                            summary += `  > 💬 ${answer.comment}\n`;
+                        }
+                    });
+                    summary += `\n`;
+                });
+
+                const blob = new Blob([summary], { type: 'text/markdown' });
+                downloadBlob(blob, `odyssey-experts-summary-${timestamp}.md`);
+            }
+        }
+
+        function downloadBlob(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function validateAndUpdate() {
+            if (!confirm('Êtes-vous sûr de vouloir mettre à jour les règles métier avec les réponses validées ?')) {
+                return;
+            }
+
+            // This would trigger a backend process to update the business rules documents
+            alert('✅ Mise à jour des règles métier en cours...\n\nLes documents suivants seront mis à jour :\n- club-med-loyalty-program.md\n- odyssey-calendar-specifications.html\n- regles-metier-capacites.md');
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            initDashboard();
+        });
+    </script>
+</body>
+</html>

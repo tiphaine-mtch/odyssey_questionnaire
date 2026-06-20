@@ -1,0 +1,35 @@
+# Fichiers système
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Node (si jamais utilisé)
+node_modules/
+npm-debug.log
+
+# Fichiers temporaires
+*.tmp
+*.bak
+*.log
+
+# Cache navigateur
+.cache/
+
+# Environnements virtuels
+venv/
+env/
+ENV/

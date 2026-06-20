@@ -1,0 +1,173 @@
+{
+  "categories": [
+    {
+      "id": "business",
+      "title": {
+        "fr": "👥 Questions Métier",
+        "en": "👥 Business Questions"
+      },
+      "sections": [
+        {
+          "id": "loyalty",
+          "title": {
+            "fr": "Programme Fidélité",
+            "en": "Loyalty Program"
+          },
+          "questions": [
+            {
+              "id": "q1_1",
+              "title": {
+                "fr": "Surclassement automatique - Règles exactes",
+                "en": "Automatic upgrade - Exact rules"
+              },
+              "context": {
+                "fr": "Spécifications actuelles indiquent \"surclassement automatique si disponible\" pour Gold/Platinum.",
+                "en": "Current specifications state \"automatic upgrade if available\" for Gold/Platinum."
+              },
+              "subQuestions": [
+                {
+                  "id": "q1_1_1",
+                  "label": {
+                    "fr": "Le surclassement se fait-il toujours N+1 ou peut-on sauter plusieurs niveaux ?",
+                    "en": "Is the upgrade always N+1 or can we skip multiple levels?"
+                  },
+                  "type": "radio",
+                  "options": [
+                    {
+                      "value": "n_plus_1",
+                      "label": {
+                        "fr": "Toujours N+1 (ex: Supérieure → Deluxe)",
+                        "en": "Always N+1 (e.g.: Superior → Deluxe)"
+                      }
+                    },
+                    {
+                      "value": "multiple",
+                      "label": {
+                        "fr": "Peut sauter plusieurs niveaux selon disponibilité",
+                        "en": "Can skip multiple levels based on availability"
+                      }
+                    },
+                    {
+                      "value": "depends",
+                      "label": {
+                        "fr": "Dépend du statut (Gold=N+1, Platinum=N+2 possible)",
+                        "en": "Depends on status (Gold=N+1, Platinum=N+2 possible)"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "q1_1_2",
+                  "label": {
+                    "fr": "À quel moment exact vérifier la disponibilité ?",
+                    "en": "At what exact moment to check availability?"
+                  },
+                  "type": "select",
+                  "options": [
+                    {"value": "j_7", "label": {"fr": "J-7 (7 jours avant check-in)", "en": "D-7 (7 days before check-in)"}},
+                    {"value": "j_3", "label": {"fr": "J-3 (3 jours avant check-in)", "en": "D-3 (3 days before check-in)"}},
+                    {"value": "j_1", "label": {"fr": "J-1 (veille du check-in)", "en": "D-1 (day before check-in)"}},
+                    {"value": "checkin", "label": {"fr": "Au moment du check-in", "en": "At check-in time"}}
+                  ]
+                },
+                {
+                  "id": "q1_1_3",
+                  "label": {
+                    "fr": "Si N+1 occupée mais N+2 libre (Platinum uniquement) ?",
+                    "en": "If N+1 is occupied but N+2 is available (Platinum only)?"
+                  },
+                  "type": "radio",
+                  "options": [
+                    {"value": "auto_n2", "label": {"fr": "Surclassement automatique N+2", "en": "Automatic N+2 upgrade"}},
+                    {"value": "proposition", "label": {"fr": "Proposition N+2 avec validation client", "en": "N+2 proposal with guest validation"}},
+                    {"value": "manual", "label": {"fr": "Validation manuelle réception uniquement", "en": "Manual reception validation only"}}
+                  ]
+                },
+                {
+                  "id": "q1_1_4",
+                  "label": {
+                    "fr": "Surclassement communiquant si groupe/famille ?",
+                    "en": "Communicating upgrade for group/family?"
+                  },
+                  "type": "radio",
+                  "options": [
+                    {"value": "yes_together", "label": {"fr": "Oui, 2 Supérieures → 2 Deluxe communicantes", "en": "Yes, 2 Superior → 2 communicating Deluxe"}},
+                    {"value": "no_separate", "label": {"fr": "On peut séparer le groupe pour surclasser", "en": "Can separate group to upgrade"}},
+                    {"value": "manual", "label": {"fr": "Décision manuelle selon situation", "en": "Manual decision based on situation"}}
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "q1_2",
+              "title": {
+                "fr": "Late Check-out - Tarification exacte",
+                "en": "Late Check-out - Exact pricing"
+              },
+              "context": {
+                "fr": "Spécifications indiquent late checkout gratuit Platinum 16h, Gold 14h.",
+                "en": "Specifications state free late checkout Platinum 16h, Gold 14h."
+              },
+              "subQuestions": [
+                {
+                  "id": "q1_2_1",
+                  "label": {
+                    "fr": "Tarif late checkout 14h pour Silver/Turquoise",
+                    "en": "Late checkout 14h rate for Silver/Turquoise"
+                  },
+                  "type": "number",
+                  "unit": "€",
+                  "placeholder": {"fr": "Prix en €", "en": "Price in €"}
+                },
+                {
+                  "id": "q1_2_2",
+                  "label": {
+                    "fr": "Tarif late checkout 16h (par niveau de fidélité)",
+                    "en": "Late checkout 16h rate (per loyalty level)"
+                  },
+                  "type": "number_group",
+                  "fields": [
+                    {"id": "q1_2_2_gold", "label": {"fr": "Gold", "en": "Gold"}, "unit": "€"},
+                    {"id": "q1_2_2_silver", "label": {"fr": "Silver", "en": "Silver"}, "unit": "€"},
+                    {"id": "q1_2_2_turquoise", "label": {"fr": "Turquoise", "en": "Turquoise"}, "unit": "€"}
+                  ]
+                },
+                {
+                  "id": "q1_2_3",
+                  "label": {
+                    "fr": "Late checkout 18h - Existe-t-il ? Si oui, tarif",
+                    "en": "Late checkout 18h - Does it exist? If yes, rate"
+                  },
+                  "type": "conditional",
+                  "condition": {
+                    "id": "q1_2_3_exists",
+                    "type": "radio",
+                    "options": [
+                      {"value": "yes", "label": {"fr": "Oui, late 18h existe", "en": "Yes, late 18h exists"}},
+                      {"value": "no", "label": {"fr": "Non, maximum 16h", "en": "No, maximum 16h"}}
+                    ]
+                  },
+                  "then": {
+                    "id": "q1_2_3_price",
+                    "type": "number",
+                    "label": {"fr": "Prix 18h", "en": "18h price"},
+                    "unit": "€"
+                  }
+                },
+                {
+                  "id": "q1_2_4",
+                  "label": {
+                    "fr": "Late checkout non disponible (chambre réservée après) - Message et alternative",
+                    "en": "Late checkout not available (room booked after) - Message and alternative"
+                  },
+                  "type": "textarea",
+                  "placeholder": {"fr": "Message exact à afficher + alternative (bagagerie, douche, compensation Platinum...)", "en": "Exact message to display + alternative (luggage storage, shower, Platinum compensation...)"}
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

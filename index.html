@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="0; url=odyssey-questionnaire-experts-STANDALONE.html">
+    <title>Questionnaire Experts Odyssey - Redirection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #00205B 0%, #003B7A 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #FDBE00;
+        }
+
+        .tagline {
+            font-size: 24px;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .redirect-message {
+            font-size: 16px;
+            margin-bottom: 1.5rem;
+            opacity: 0.85;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            margin: 2rem auto;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top: 4px solid #FDBE00;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .manual-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: #FDBE00;
+            color: #00205B;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .manual-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(253, 190, 0, 0.3);
+        }
+
+        .footer {
+            margin-top: 3rem;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 36px;
+            }
+
+            .tagline {
+                font-size: 18px;
+            }
+
+            .redirect-message {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🏖️ Club Med</div>
+        <h1 class="tagline">Questionnaire Experts Odyssey</h1>
+        <p class="redirect-message">Redirection vers le questionnaire en cours...</p>
+
+        <div class="spinner"></div>
+
+        <p style="opacity: 0.7; font-size: 14px; margin-top: 1rem;">
+            Si la redirection ne fonctionne pas :
+        </p>
+        <a href="odyssey-questionnaire-experts-STANDALONE.html" class="manual-link">
+            Accéder au questionnaire
+        </a>
+
+        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.2);">
+            <p style="font-size: 14px; opacity: 0.7; margin-bottom: 0.5rem;">Liens utiles :</p>
+            <a href="odyssey-expert-admin-dashboard.html" style="color: #FDBE00; text-decoration: none; font-weight: 600;">
+                📊 Dashboard Admin
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>Calendrier des Chambres - Odyssey PMS</p>
+            <p style="margin-top: 0.25rem;">Développé avec ❤️ pour les opérationnels Club Med</p>
+        </div>
+    </div>
+
+    <script>
+        // Redirection automatique après 1 seconde (au cas où meta refresh ne fonctionne pas)
+        setTimeout(() => {
+            window.location.href = 'odyssey-questionnaire-experts-STANDALONE.html';
+        }, 1000);
+    </script>
+</body>
+</html>

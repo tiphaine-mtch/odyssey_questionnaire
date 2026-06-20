@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Chargement Questions</title>
+</head>
+<body>
+    <h1>Test de chargement des questions</h1>
+    <div id="status">Chargement...</div>
+    <div id="error" style="color: red;"></div>
+    <div id="content"></div>
+
+    <script>
+        async function testLoad() {
+            const statusDiv = document.getElementById('status');
+            const errorDiv = document.getElementById('error');
+            const contentDiv = document.getElementById('content');
+
+            try {
+                statusDiv.textContent = 'Tentative de chargement du JSON...';
+
+                const response = await fetch('questions-business-only.json');
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                statusDiv.textContent = '✅ JSON chargé avec succès!';
+                contentDiv.innerHTML = `
+                    <h2>Données chargées:</h2>
+                    <p><strong>Version:</strong> ${data.metadata.version}</p>
+                    <p><strong>Total questions:</strong> ${data.metadata.totalQuestions}</p>
+                    <p><strong>Sections:</strong> ${data.sections.length}</p>
+                    <h3>Sections:</h3>
+                    <ul>
+                        ${data.sections.map(s => `
+                            <li>${s.icon} ${s.title.fr} - ${s.questions.length} question(s)</li>
+                        `).join('')}
+                    </ul>
+                `;
+            } catch (error) {
+                statusDiv.textContent = '❌ Erreur de chargement';
+                errorDiv.textContent = `Erreur: ${error.message}`;
+                errorDiv.innerHTML += `<br><br><strong>Solution:</strong>
+                    <br>1. Démarrer un serveur web local:
+                    <br><code>python3 -m http.server 8000</code>
+                    <br>2. Ouvrir: <code>http://localhost:8000/TEST-QUESTIONS.html</code>`;
+            }
+        }
+
+        testLoad();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire Experts - Odyssey PMS</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Newsreader:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Design Tokens -->
+    <link rel="stylesheet" href="club-med-trident-design-tokens.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family-body);
+            background: var(--color-surface-secondary);
+            color: var(--color-content-primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: var(--color-brand-ultramarine-blue);
+            color: var(--color-content-primary-inverse);
+            padding: var(--spacing-m-l);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-elevated);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: var(--font-family-heading);
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .tagline {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xxs);
+        }
+
+        .context {
+            font-size: 13px;
+            opacity: 0.85;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: var(--color-surface-primary);
+            padding: var(--spacing-m);
+            border-bottom: 2px solid var(--color-border-secondary);
+            position: sticky;
+            top: 80px;
+            z-index: 99;
+        }
+
+        .progress-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--color-surface-secondary);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            margin-bottom: var(--spacing-s);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--color-brand-saffran-yellow);
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--color-content-secondary);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-l);
+        }
+
+        /* Step: Identification */
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--color-surface-primary);
+            border-radius: var(--radius-m);
+            padding: var(--spacing-l);
+            margin-bottom: var(--spacing-m-l);
+            box-shadow: var(--shadow-card);
+        }
+
+        .card-title {
+            font-family: var(--font-family-heading);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: var(--spacing-s);
+            color: var(--color-content-primary);
+        }
+
+        .card-subtitle {
+            font-size: 14px;
+            color: var(--color-content-secondary);
+            margin-bottom: var(--spacing-m-l);
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: var(--spacing-m);
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .form-label.required::after {
+            content: " *";
+            color: var(--color-content-negative);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: var(--spacing-s);
+            border: 2px solid var(--color-border-secondary);
+            border-radius: var(--radius-m);
+            font-family: var(--font-family-body);
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--color-brand-saffran-yellow);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-hint {
+            font-size: 12px;
+            color: var(--color-content-secondary);
+            margin-top: var(--spacing-xxs);
+        }
+
+        /* Question Card */
+        .question-card {
+            background: var(--color-surface-primary);
+            border-radius: var(--radius-m);
+            padding: var(--spacing-m-l);
+            margin-bottom: var(--spacing-m);
+            border-left: 4px solid var(--color-border-secondary);
+            box-shadow: var(--shadow-card);
+            transition: all 0.2s;
+        }
+
+        .question-card:hover {
+            border-left-color: var(--color-brand-saffran-yellow);
+        }
+
+        .question-card.answered {
+            border-left-color: var(--color-layout-green);
+            background: var(--color-surface-tertiary);
+        }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-s);
+            margin-bottom: var(--spacing-m);
+        }
+
+        .question-number {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--color-brand-saffran-yellow);
+            min-width: 40px;
+        }
+
+        .question-content {
+            flex: 1;
+        }
+
+        .question-title {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: var(--spacing-xs);
+            color: var(--color-content-primary);
+        }
+
+        .question-context {
+            font-size: 13px;
+            color: var(--color-content-secondary);
+            padding: var(--spacing-s);
+            background: var(--color-surface-secondary);
+            border-radius: var(--radius-m);
+            margin: var(--spacing-s) 0;
+        }
+
+        .sub-questions {
+            margin-left: var(--spacing-l);
+            margin-top: var(--spacing-s);
+        }
+
+        .sub-question {
+            margin-bottom: var(--spacing-m);
+            padding-left: var(--spacing-m);
+            border-left: 2px solid var(--color-border-secondary);
+        }
+
+        .sub-question-label {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        /* Comment Section */
+        .comment-section {
+            margin-top: var(--spacing-m);
+            padding-top: var(--spacing-m);
+            border-top: 1px solid var(--color-border-secondary);
+        }
+
+        .comment-label {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+            color: var(--color-content-secondary);
+        }
+
+        .comment-textarea {
+            width: 100%;
+            min-height: 60px;
+            padding: var(--spacing-s);
+            border: 2px dashed var(--color-border-secondary);
+            border-radius: var(--radius-m);
+            font-family: var(--font-family-body);
+            font-size: 13px;
+            resize: vertical;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: var(--spacing-s) var(--spacing-l);
+            border: none;
+            border-radius: var(--radius-m);
+            font-family: var(--font-family-body);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--color-background-primary);
+            color: var(--color-content-primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-brand-saffran-yellow);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .btn-secondary {
+            background: var(--color-surface-secondary);
+            color: var(--color-content-primary);
+            border: 2px solid var(--color-border-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-surface-tertiary);
+        }
+
+        .btn-large {
+            padding: var(--spacing-m) var(--spacing-xl);
+            font-size: 16px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: var(--spacing-s);
+            margin-top: var(--spacing-l);
+        }
+
+        /* Section Header */
+        .section-header {
+            background: var(--color-brand-light-sand);
+            padding: var(--spacing-m);
+            border-radius: var(--radius-m);
+            margin: var(--spacing-l) 0;
+            border-left: 4px solid var(--color-brand-saffran-yellow);
+        }
+
+        .section-title {
+            font-family: var(--font-family-heading);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--color-content-primary);
+            margin-bottom: var(--spacing-xxs);
+        }
+
+        .section-subtitle {
+            font-size: 13px;
+            color: var(--color-content-secondary);
+        }
+
+        /* Summary Card */
+        .summary-card {
+            background: var(--color-surface-primary);
+            border-radius: var(--radius-m);
+            padding: var(--spacing-l);
+            margin-bottom: var(--spacing-m);
+            box-shadow: var(--shadow-elevated);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-m);
+            margin-top: var(--spacing-m);
+        }
+
+        .summary-item {
+            padding: var(--spacing-m);
+            background: var(--color-surface-secondary);
+            border-radius: var(--radius-m);
+        }
+
+        .summary-label {
+            font-size: 12px;
+            color: var(--color-content-secondary);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xxs);
+        }
+
+        .summary-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-content-primary);
+        }
+
+        /* Success Message */
+        .success-message {
+            background: #D1F4E0;
+            color: var(--color-layout-green);
+            padding: var(--spacing-l);
+            border-radius: var(--radius-m);
+            text-align: center;
+            margin: var(--spacing-l) 0;
+        }
+
+        .success-icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-m);
+        }
+
+        .success-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: var(--spacing-s);
+        }
+
+        /* Alert Box */
+        .alert {
+            padding: var(--spacing-m);
+            border-radius: var(--radius-m);
+            margin-bottom: var(--spacing-m);
+        }
+
+        .alert-info {
+            background: var(--color-brand-light-sand);
+            border-left: 4px solid var(--color-chinese-marigold);
+        }
+
+        /* Radio/Checkbox Groups */
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-s);
+        }
+
+        .radio-option,
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-s);
+            padding: var(--spacing-s);
+            background: var(--color-surface-secondary);
+            border-radius: var(--radius-m);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .radio-option:hover,
+        .checkbox-option:hover {
+            background: var(--color-surface-tertiary);
+        }
+
+        .radio-option input,
+        .checkbox-option input {
+            cursor: pointer;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xxs);
+            padding: var(--spacing-xxs) var(--spacing-s);
+            border-radius: var(--radius-xl);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-badge.complete {
+            background: #D1F4E0;
+            color: var(--color-layout-green);
+        }
+
+        .status-badge.partial {
+            background: #FFF3CD;
+            color: var(--color-chinese-marigold);
+        }
+
+        .status-badge.empty {
+            background: var(--color-surface-secondary);
+            color: var(--color-content-disabled);
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: absolute;
+            top: var(--spacing-m);
+            right: var(--spacing-m);
+            display: flex;
+            gap: var(--spacing-xs);
+            background: rgba(255, 255, 255, 0.1);
+            padding: var(--spacing-xs);
+            border-radius: var(--radius-m);
+        }
+
+        .lang-btn {
+            padding: var(--spacing-xs) var(--spacing-s);
+            background: transparent;
+            border: 2px solid transparent;
+            color: var(--color-content-primary-inverse);
+            font-family: var(--font-family-body);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: var(--radius-s);
+            transition: all 0.2s;
+        }
+
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .lang-btn.active {
+            background: var(--color-brand-saffran-yellow);
+            color: var(--color-brand-black-coal);
+            border-color: var(--color-brand-saffran-yellow);
+        }
+
+        .header-content {
+            position: relative;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-m);
+            }
+
+            .question-header {
+                flex-direction: column;
+            }
+
+            .sub-questions {
+                margin-left: 0;
+            }
+
+            .language-switcher {
+                position: static;
+                margin-top: var(--spacing-s);
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="language-switcher">
+                <button class="lang-btn active" onclick="setLanguage('fr')" id="lang-fr">🇫🇷 FR</button>
+                <button class="lang-btn" onclick="setLanguage('en')" id="lang-en">🇬🇧 EN</button>
+            </div>
+            <div class="logo">☀️ Club Med - Odyssey PMS</div>
+            <div class="tagline" data-i18n="header.title">Questionnaire Experts - Calendrier des Chambres</div>
+            <div class="context" data-i18n="header.subtitle">Construction des règles métier pour la fonctionnalité de planning et gestion des réservations</div>
+        </div>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <div class="progress-text">
+                <span><span data-i18n="progress.label">Progression :</span> <strong id="progressPercent">0%</strong></span>
+                <span><strong id="answeredCount">0</strong> / <strong id="totalCount">0</strong> <span data-i18n="progress.answers">réponses</span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Step 1: Identification -->
+        <div class="step active" id="step-identification">
+            <div class="card">
+                <h1 class="card-title" data-i18n="identification.title">👤 Identification</h1>
+                <p class="card-subtitle">
+                    <strong>Contexte :</strong> <span data-i18n="identification.context">Ce questionnaire vise à collecter votre expertise pour construire la fonctionnalité de <strong>calendrier des chambres</strong> du PMS Odyssey (gestion des réservations, check-in/out, programme fidélité, capacités resorts).</span>
+                </p>
+                <p class="card-subtitle" style="margin-top: var(--spacing-s);" data-i18n="identification.subtitle">
+                    Merci de vous identifier pour commencer. Vos informations permettront à l'équipe produit de contextualiser vos réponses selon votre rôle et localisation.
+                </p>
+
+                <div class="form-group">
+                    <label class="form-label required" data-i18n="form.name">Nom complet</label>
+                    <input type="text" class="form-input" id="expertName" data-i18n-placeholder="form.name.placeholder" placeholder="Ex: Marie Dupont">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label required" data-i18n="form.role">Rôle / Fonction</label>
+                    <select class="form-select" id="expertRole">
+                        <option value="" data-i18n="form.role.select">-- Sélectionnez --</option>
+                        <option value="room_division_manager" data-i18n="form.role.room_div">Room Division Manager</option>
+                        <option value="planning_manager" data-i18n="form.role.planning">Planning Manager</option>
+                        <option value="produits_services_manager" data-i18n="form.role.products">Produits & Services Manager</option>
+                        <option value="other" data-i18n="form.role.other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="otherRoleGroup" style="display: none;">
+                    <label class="form-label required" data-i18n="form.role.specify">Précisez votre rôle</label>
+                    <input type="text" class="form-input" id="expertRoleOther" data-i18n-placeholder="form.role.placeholder" placeholder="Votre fonction">
+                </div>
+
+                <!-- Localisation (seulement pour Other) -->
+                <div class="form-group" id="locationGroup" style="display: none;">
+                    <label class="form-label required" data-i18n="form.location">Localisation</label>
+                    <select class="form-select" id="expertLocation">
+                        <option value="" data-i18n="form.role.select">-- Sélectionnez --</option>
+                        <option value="siege" data-i18n="form.location.hq">Siège Social</option>
+                        <option value="business_unit" data-i18n="form.location.bu">Business Unit</option>
+                        <option value="resort" data-i18n="form.location.resort">Resort / Village</option>
+                    </select>
+                </div>
+
+                <!-- Resort (pour Room Division et Planning Manager) -->
+                <div class="form-group" id="resortGroup" style="display: none;">
+                    <label class="form-label required" data-i18n="form.resort.label">Dans quel resort travaillez-vous ?</label>
+                    <input type="text" class="form-input" id="expertResort" data-i18n-placeholder="form.resort.placeholder" placeholder="Ex: Les Arcs Panorama (ARPC)">
+                </div>
+
+                <!-- Business Unit (pour Produits & Services Manager) -->
+                <div class="form-group" id="businessUnitGroup" style="display: none;">
+                    <label class="form-label required" data-i18n="form.bu.label">Dans quelle Business Unit travaillez-vous ?</label>
+                    <select class="form-select" id="expertBusinessUnit">
+                        <option value="">-- Sélectionnez --</option>
+                        <option value="EMEA">EMEA (Europe, Middle East, Africa)</option>
+                        <option value="ESAP">ESAP (East & South Asia Pacific)</option>
+                        <option value="NAM">NAM (North America)</option>
+                        <option value="SAM">SAM (South America)</option>
+                    </select>
+                </div>
+
+                <!-- Resort/BU pour Other (si location = resort ou BU) -->
+                <div class="form-group" id="otherResortGroup" style="display: none;">
+                    <label class="form-label required">Nom du Resort</label>
+                    <input type="text" class="form-input" id="otherResort" placeholder="Ex: Les Arcs Panorama (ARPC)">
+                </div>
+
+                <div class="form-group" id="otherBusinessUnitGroup" style="display: none;">
+                    <label class="form-label required">Business Unit</label>
+                    <input type="text" class="form-input" id="otherBusinessUnit" placeholder="Ex: Europe Alpes">
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary btn-large" onclick="startQuestionnaire()" data-i18n="btn.start">Commencer le questionnaire →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Questions Métier -->
+        <div class="step" id="step-questions">
+            <div class="alert alert-info">
+                <strong data-i18n="alert.info.title">📅 Contexte : Calendrier des Chambres</strong><br>
+                <span data-i18n="alert.info.desc">Ce questionnaire porte sur les règles métier du calendrier de planning des chambres (réservations, check-in/out, fidélité, capacités).</span><br><br>
+                <strong data-i18n="alert.info.how">💡 Comment répondre ?</strong><br>
+                <span data-i18n="alert.info.tip1">• Répondez aux questions pour lesquelles vous avez l'expertise opérationnelle</span><br>
+                <span data-i18n="alert.info.tip2">• Laissez vide si vous ne savez pas</span><br>
+                <span data-i18n="alert.info.tip3">• Utilisez la zone "Questions/Commentaires" pour demander des clarifications</span><br>
+                <span data-i18n="alert.info.tip4">• Vos réponses sont sauvegardées automatiquement</span>
+            </div>
+
+            <!-- Questions dynamiques chargées depuis JSON -->
+            <div id="questions-container">
+                <!-- Les questions seront générées dynamiquement ici -->
+            </div>
+
+            <!-- LEGACY - Questions statiques remplacées par chargement dynamique -->
+            <div id="legacy-questions" style="display: none;">
+            <!-- Q1.1: Surclassement automatique -->
+            <div class="question-card" data-question="q1_1">
+                <div class="question-header">
+                    <span class="question-number">Q1.1</span>
+                    <div class="question-content">
+                        <div class="question-title">Surclassement automatique - Règles exactes</div>
+                        <div class="question-context">
+                            <strong>Contexte :</strong> Actuellement Gold/Platinum ont surclassement automatique "si disponible". Besoin de préciser les règles exactes.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-questions">
+                    <div class="sub-question">
+                        <label class="sub-question-label">1. Le surclassement se fait toujours N+1 ou peut sauter plusieurs niveaux ?</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="q1_1_1" value="n_plus_1">
+                                <span>Toujours N+1 (ex: Supérieure → Deluxe)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q1_1_1" value="multiple">
+                                <span>Peut sauter plusieurs niveaux selon disponibilité</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q1_1_1" value="depends">
+                                <span>Dépend du statut (Gold=N+1, Platinum=N+2 possible)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="sub-question">
+                        <label class="sub-question-label">2. À quel moment exact vérifier la disponibilité ?</label>
+                        <select class="form-select" name="q1_1_2">
+                            <option value="">-- Sélectionnez --</option>
+                            <option value="j_7">J-7 (7 jours avant check-in)</option>
+                            <option value="j_3">J-3 (3 jours avant check-in)</option>
+                            <option value="j_1">J-1 (veille du check-in)</option>
+                            <option value="checkin">Au moment du check-in</option>
+                        </select>
+                    </div>
+
+                    <div class="sub-question">
+                        <label class="sub-question-label">3. Si N+1 occupée mais N+2 libre (Platinum uniquement) ?</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="q1_1_3" value="auto_n2">
+                                <span>Surclassement automatique N+2</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q1_1_3" value="proposition">
+                                <span>Proposition N+2 avec validation client</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q1_1_3" value="manual">
+                                <span>Validation manuelle réception uniquement</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comment-section">
+                    <label class="comment-label">💬 Questions / Commentaires / Précisions</label>
+                    <textarea class="comment-textarea" name="q1_1_comment" placeholder="Ajoutez vos questions ou précisions ici..."></textarea>
+                </div>
+            </div>
+
+            <!-- Q1.2: Late Check-out tarification -->
+            <div class="question-card" data-question="q1_2">
+                <div class="question-header">
+                    <span class="question-number">Q1.2</span>
+                    <div class="question-content">
+                        <div class="question-title">Late Check-out - Tarification exacte</div>
+                        <div class="question-context">
+                            <strong>Contexte :</strong> Platinum=16h gratuit, Gold=14h gratuit. Besoin des tarifs exacts pour Silver/Turquoise.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-questions">
+                    <div class="sub-question">
+                        <label class="sub-question-label">1. Late checkout 14h - Tarif Silver/Turquoise</label>
+                        <div style="display: flex; gap: var(--spacing-s); align-items: center;">
+                            <input type="number" class="form-input" name="q1_2_1" placeholder="Prix en €" style="max-width: 120px;">
+                            <span>€</span>
+                        </div>
+                    </div>
+
+                    <div class="sub-question">
+                        <label class="sub-question-label">2. Late checkout 16h - Tarif Gold/Silver/Turquoise</label>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-s);">
+                            <div>
+                                <label style="font-size: 12px; display: block; margin-bottom: 4px;">Gold</label>
+                                <input type="number" class="form-input" name="q1_2_2_gold" placeholder="€">
+                            </div>
+                            <div>
+                                <label style="font-size: 12px; display: block; margin-bottom: 4px;">Silver</label>
+                                <input type="number" class="form-input" name="q1_2_2_silver" placeholder="€">
+                            </div>
+                            <div>
+                                <label style="font-size: 12px; display: block; margin-bottom: 4px;">Turquoise</label>
+                                <input type="number" class="form-input" name="q1_2_2_turquoise" placeholder="€">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sub-question">
+                        <label class="sub-question-label">3. Late checkout 18h - Existe-t-il ? Si oui, tarifs</label>
+                        <div class="radio-group" style="margin-bottom: var(--spacing-s);">
+                            <label class="radio-option">
+                                <input type="radio" name="q1_2_3_exists" value="yes" onchange="toggleLate18h(true)">
+                                <span>Oui, late 18h existe</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q1_2_3_exists" value="no" onchange="toggleLate18h(false)">
+                                <span>Non, maximum 16h</span>
+                            </label>
+                        </div>
+                        <div id="late18hPrices" style="display: none;">
+                            <input type="number" class="form-input" name="q1_2_3_price" placeholder="Prix 18h en €">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comment-section">
+                    <label class="comment-label">💬 Questions / Commentaires / Précisions</label>
+                    <textarea class="comment-textarea" name="q1_2_comment" placeholder="Ajoutez vos questions ou précisions ici..."></textarea>
+                </div>
+            </div>
+
+            </div>
+            <!-- END LEGACY -->
+
+            <div class="btn-group">
+                <button class="btn btn-secondary" onclick="goToStep('identification')" data-i18n="btn.back">← Retour</button>
+                <button class="btn btn-primary btn-large" onclick="goToStep('summary')" data-i18n="btn.summary">Voir le résumé →</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Summary -->
+        <div class="step" id="step-summary">
+            <div class="summary-card">
+                <h2 class="card-title">📊 Résumé de vos réponses</h2>
+
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <div class="summary-label">Questions répondues</div>
+                        <div class="summary-value" id="summaryAnswered">0</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">Total questions</div>
+                        <div class="summary-value" id="summaryTotal">0</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">Taux complétion</div>
+                        <div class="summary-value" id="summaryPercent">0%</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">Commentaires ajoutés</div>
+                        <div class="summary-value" id="summaryComments">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>🔍 Vérifiez vos réponses</strong><br>
+                Parcourez le résumé ci-dessous. Vous pouvez modifier vos réponses en cliquant sur "Modifier".
+            </div>
+
+            <div id="summaryContent">
+                <!-- Summary will be generated dynamically -->
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-secondary" onclick="goToStep('questions')" data-i18n="btn.modify">← Modifier mes réponses</button>
+                <button class="btn btn-primary btn-large" onclick="submitQuestionnaire()" data-i18n="btn.submit">✅ Soumettre mes réponses</button>
+            </div>
+        </div>
+
+        <!-- Step 4: Success -->
+        <div class="step" id="step-success">
+            <div class="success-message">
+                <div class="success-icon">✅</div>
+                <div class="success-title" data-i18n="success.title">Merci pour votre contribution !</div>
+                <p data-i18n="success.message">Vos réponses ont été enregistrées et seront analysées par l'équipe produit Odyssey.</p>
+                <p style="margin-top: var(--spacing-m);">
+                    <strong data-i18n="success.reference">Référence :</strong> <span id="submissionId"></span>
+                </p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title" data-i18n="success.download.title">📥 Télécharger vos réponses</h3>
+                <p class="card-subtitle" data-i18n="success.download.desc">Conservez une copie de vos réponses pour référence future.</p>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="downloadJSON()" data-i18n="btn.download.json">📄 Télécharger JSON</button>
+                    <button class="btn btn-secondary" onclick="downloadCSV()" data-i18n="btn.download.csv">📊 Télécharger CSV</button>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-secondary" onclick="window.location.reload()" data-i18n="btn.restart">Recommencer</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Translations
+        const translations = {
+            fr: {
+                'header.title': 'Questionnaire Experts - Calendrier des Chambres',
+                'header.subtitle': 'Construction des règles métier pour la fonctionnalité de planning et gestion des réservations',
+                'progress.label': 'Progression :',
+                'progress.answers': 'réponses',
+                'identification.title': '👤 Identification',
+                'identification.context': 'Ce questionnaire vise à collecter votre expertise pour construire la fonctionnalité de <strong>calendrier des chambres</strong> du PMS Odyssey (gestion des réservations, check-in/out, programme fidélité, capacités resorts).',
+                'identification.subtitle': 'Merci de vous identifier pour commencer. Vos informations permettront à l\'équipe produit de contextualiser vos réponses selon votre rôle et localisation.',
+                'form.name': 'Nom complet',
+                'form.name.placeholder': 'Ex: Marie Dupont',
+                'form.role': 'Rôle / Fonction',
+                'form.role.select': '-- Sélectionnez --',
+                'form.role.room_div': 'Room Division Manager',
+                'form.role.planning': 'Planning Manager',
+                'form.role.products': 'Produits & Services Manager',
+                'form.role.other': 'Other',
+                'form.role.specify': 'Précisez votre rôle',
+                'form.role.placeholder': 'Votre fonction',
+                'form.resort.label': 'Dans quel resort travaillez-vous ?',
+                'form.resort.placeholder': 'Ex: Les Arcs Panorama (ARPC)',
+                'form.bu.label': 'Dans quelle Business Unit travaillez-vous ?',
+                'form.location': 'Localisation',
+                'form.location.hq': 'Siège Social',
+                'form.location.bu': 'Business Unit',
+                'form.location.resort': 'Resort / Village',
+                'btn.start': 'Commencer le questionnaire →',
+                'btn.back': '← Retour',
+                'btn.summary': 'Voir le résumé →',
+                'btn.submit': '✅ Soumettre mes réponses',
+                'btn.modify': '← Modifier mes réponses',
+                'btn.restart': 'Recommencer',
+                'alert.info.title': '📅 Contexte : Calendrier des Chambres',
+                'alert.info.desc': 'Ce questionnaire porte sur les règles métier du calendrier de planning des chambres (réservations, check-in/out, fidélité, capacités).',
+                'alert.info.how': '💡 Comment répondre ?',
+                'alert.info.tip1': '• Répondez aux questions pour lesquelles vous avez l\'expertise opérationnelle',
+                'alert.info.tip2': '• Laissez vide si vous ne savez pas',
+                'alert.info.tip3': '• Utilisez la zone "Questions/Commentaires" pour demander des clarifications',
+                'alert.info.tip4': '• Vos réponses sont sauvegardées automatiquement',
+                'success.title': 'Merci pour votre contribution !',
+                'success.message': 'Vos réponses ont été enregistrées et seront analysées par l\'équipe produit Odyssey.',
+                'success.reference': 'Référence :',
+                'success.download.title': '📥 Télécharger vos réponses',
+                'success.download.desc': 'Conservez une copie de vos réponses pour référence future.',
+                'btn.download.json': '📄 Télécharger JSON',
+                'btn.download.csv': '📊 Télécharger CSV'
+            },
+            en: {
+                'header.title': 'Expert Questionnaire - Room Calendar',
+                'header.subtitle': 'Building business rules for the planning and reservation management feature',
+                'progress.label': 'Progress:',
+                'progress.answers': 'answers',
+                'identification.title': '👤 Identification',
+                'identification.context': 'This questionnaire aims to collect your expertise to build the <strong>room calendar</strong> feature of the Odyssey PMS (reservation management, check-in/out, loyalty program, resort capacities).',
+                'identification.subtitle': 'Please identify yourself to begin. Your information will help the product team contextualize your answers according to your role and location.',
+                'form.name': 'Full name',
+                'form.name.placeholder': 'E.g.: Marie Dupont',
+                'form.role': 'Role / Position',
+                'form.role.select': '-- Select --',
+                'form.role.room_div': 'Room Division Manager',
+                'form.role.planning': 'Planning Manager',
+                'form.role.products': 'Products & Services Manager',
+                'form.role.other': 'Other',
+                'form.role.specify': 'Specify your role',
+                'form.role.placeholder': 'Your position',
+                'form.resort.label': 'Which resort do you work in?',
+                'form.resort.placeholder': 'E.g.: Les Arcs Panorama (ARPC)',
+                'form.bu.label': 'Which Business Unit do you work in?',
+                'form.location': 'Location',
+                'form.location.hq': 'Headquarters',
+                'form.location.bu': 'Business Unit',
+                'form.location.resort': 'Resort / Village',
+                'btn.start': 'Start questionnaire →',
+                'btn.back': '← Back',
+                'btn.summary': 'View summary →',
+                'btn.submit': '✅ Submit my answers',
+                'btn.modify': '← Modify my answers',
+                'btn.restart': 'Start over',
+                'alert.info.title': '📅 Context: Room Calendar',
+                'alert.info.desc': 'This questionnaire covers the business rules for the room planning calendar (reservations, check-in/out, loyalty, capacities).',
+                'alert.info.how': '💡 How to answer?',
+                'alert.info.tip1': '• Answer questions for which you have operational expertise',
+                'alert.info.tip2': '• Leave blank if you don\'t know',
+                'alert.info.tip3': '• Use the "Questions/Comments" section to request clarifications',
+                'alert.info.tip4': '• Your answers are saved automatically',
+                'success.title': 'Thank you for your contribution!',
+                'success.message': 'Your answers have been saved and will be analyzed by the Odyssey product team.',
+                'success.reference': 'Reference:',
+                'success.download.title': '📥 Download your answers',
+                'success.download.desc': 'Keep a copy of your answers for future reference.',
+                'btn.download.json': '📄 Download JSON',
+                'btn.download.csv': '📊 Download CSV'
+            }
+        };
+
+        let currentLanguage = 'fr';
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('odyssey_lang', lang);
+
+            // Update language buttons
+            document.getElementById('lang-fr').classList.toggle('active', lang === 'fr');
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+
+            // Update all translated elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Update placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[lang][key]) {
+                    el.placeholder = translations[lang][key];
+                }
+            });
+
+            // Re-render questions in new language if questions are loaded
+            if (questionsData) {
+                // Save current answers before re-rendering
+                saveAnswers();
+                renderQuestions();
+                // Restore answers after re-rendering
+                restoreAnswers();
+            }
+        }
+
+        function restoreAnswers() {
+            Object.keys(answersData).forEach(key => {
+                const el = document.querySelector(`[name="${key}"]`);
+                if (el) {
+                    if (el.type === 'radio') {
+                        const radio = document.querySelector(`[name="${key}"][value="${answersData[key]}"]`);
+                        if (radio) radio.checked = true;
+                    } else if (el.type === 'checkbox') {
+                        if (Array.isArray(answersData[key])) {
+                            answersData[key].forEach(val => {
+                                const cb = document.querySelector(`[name="${key}"][value="${val}"]`);
+                                if (cb) cb.checked = true;
+                            });
+                        }
+                    } else {
+                        el.value = answersData[key];
+                    }
+                }
+            });
+        }
+
+        // Data storage
+        let expertData = {};
+        let answersData = {};
+        let currentStep = 'identification';
+        let questionsData = null;
+
+        // Questions data embedded (to avoid CORS issues when opening file:// directly)
+        const QUESTIONS_DATA_EMBEDDED = null; // Will be loaded from external JSON or embedded
+
+        // Load questions from JSON
+        async function loadQuestions() {
+            try {
+                // Try to fetch external JSON first
+                const response = await fetch('questions-business-only.json');
+                if (response.ok) {
+                    questionsData = await response.json();
+                } else {
+                    throw new Error('JSON file not found');
+                }
+            } catch (error) {
+                console.warn('Could not load external JSON, using embedded data:', error);
+                // Fallback to embedded data if fetch fails
+                questionsData = QUESTIONS_DATA_EMBEDDED || getEmbeddedQuestions();
+            }
+
+            if (questionsData) {
+                renderQuestions();
+            } else {
+                console.error('No questions data available');
+                alert('Erreur: Aucune question disponible. Veuillez contacter le support.');
+            }
+        }
+
+        // Embedded questions as fallback
+        function getEmbeddedQuestions() {
+            return {
+                "metadata": {
+                    "version": "1.0",
+                    "totalQuestions": 11
+                },
+                "sections": []
+            };
+        }
+
+        // Render questions dynamically
+        function renderQuestions() {
+            if (!questionsData) return;
+
+            const container = document.getElementById('questions-container');
+            let html = '';
+
+            questionsData.sections.forEach(section => {
+                // Section header
+                html += `
+                    <div class="section-header">
+                        <div class="section-title">${section.icon} ${section.title[currentLanguage]}</div>
+                        <div class="section-subtitle">${section.description[currentLanguage]}</div>
+                    </div>
+                `;
+
+                // Questions in section
+                section.questions.forEach(question => {
+                    html += `
+                        <div class="question-card" data-question="${question.id}">
+                            <div class="question-header">
+                                <span class="question-number">${question.number}</span>
+                                <div class="question-content">
+                                    <div class="question-title">${question.title[currentLanguage]}</div>
+                                    ${question.context ? `
+                                        <div class="question-context">
+                                            <strong>Contexte :</strong> ${question.context[currentLanguage]}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+
+                            <div class="sub-questions">
+                    `;
+
+                    // Items in question
+                    question.items.forEach((item, index) => {
+                        html += `<div class="sub-question">`;
+
+                        const label = item.label[currentLanguage];
+                        const required = item.required ? ' <span style="color: var(--color-content-negative);">*</span>' : '';
+
+                        html += `<label class="sub-question-label">${index + 1}. ${label}${required}</label>`;
+
+                        if (item.note) {
+                            html += `<div style="font-size: 12px; color: var(--color-content-secondary); margin-top: 4px; font-style: italic;">${item.note[currentLanguage]}</div>`;
+                        }
+
+                        // Generate input based on type
+                        switch (item.type) {
+                            case 'radio':
+                                html += `<div class="radio-group">`;
+                                item.options.forEach(option => {
+                                    html += `
+                                        <label class="radio-option">
+                                            <input type="radio" name="${item.id}" value="${option.value}" ${item.required ? 'required' : ''}>
+                                            <span>${option.label[currentLanguage]}</span>
+                                        </label>
+                                    `;
+                                });
+                                html += `</div>`;
+                                break;
+
+                            case 'select':
+                                html += `<select class="form-select" name="${item.id}" ${item.required ? 'required' : ''}>`;
+                                html += `<option value="">-- ${currentLanguage === 'fr' ? 'Sélectionnez' : 'Select'} --</option>`;
+                                item.options.forEach(option => {
+                                    html += `<option value="${option.value}">${option.label[currentLanguage]}</option>`;
+                                });
+                                html += `</select>`;
+                                break;
+
+                            case 'checkbox':
+                                html += `<div class="checkbox-group">`;
+                                item.options.forEach(option => {
+                                    html += `
+                                        <label class="checkbox-option">
+                                            <input type="checkbox" name="${item.id}" value="${option.value}">
+                                            <span>${option.label[currentLanguage]}</span>
+                                        </label>
+                                    `;
+                                });
+                                html += `</div>`;
+                                break;
+
+                            case 'number':
+                                const placeholder = item.placeholder ? item.placeholder[currentLanguage] : '';
+                                html += `
+                                    <div style="display: flex; gap: var(--spacing-s); align-items: center;">
+                                        <input type="number" class="form-input" name="${item.id}"
+                                               placeholder="${placeholder}"
+                                               style="max-width: 150px;"
+                                               ${item.required ? 'required' : ''}>
+                                        ${item.unit ? `<span>${item.unit}</span>` : ''}
+                                    </div>
+                                `;
+                                break;
+
+                            case 'textarea':
+                                const textPlaceholder = item.placeholder ? item.placeholder[currentLanguage] : '';
+                                html += `
+                                    <textarea class="form-textarea" name="${item.id}"
+                                              placeholder="${textPlaceholder}"
+                                              ${item.required ? 'required' : ''}></textarea>
+                                `;
+                                break;
+                        }
+
+                        html += `</div>`; // end sub-question
+                    });
+
+                    html += `
+                            </div>
+                            <div class="comment-section">
+                                <label class="comment-label">💬 ${currentLanguage === 'fr' ? 'Questions / Commentaires / Précisions' : 'Questions / Comments / Details'}</label>
+                                <textarea class="comment-textarea" name="${question.id}_comment"
+                                          placeholder="${currentLanguage === 'fr' ? 'Ajoutez vos questions ou précisions ici...' : 'Add your questions or details here...'}"></textarea>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+
+            container.innerHTML = html;
+
+            // Re-attach event listeners for auto-save
+            attachAutoSaveListeners();
+        }
+
+        function attachAutoSaveListeners() {
+            document.querySelectorAll('#questions-container input, #questions-container select, #questions-container textarea').forEach(el => {
+                el.addEventListener('change', () => {
+                    saveAnswers();
+                    updateProgress();
+                });
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Load saved language or default to French
+            const savedLang = localStorage.getItem('odyssey_lang') || 'fr';
+            setLanguage(savedLang);
+
+            // Load questions from JSON
+            await loadQuestions();
+
+            loadFromLocalStorage();
+            updateProgress();
+
+            // Dynamic form handling based on role
+            document.getElementById('expertRole').addEventListener('change', (e) => {
+                const role = e.target.value;
+
+                // Reset all fields
+                document.getElementById('otherRoleGroup').style.display = 'none';
+                document.getElementById('locationGroup').style.display = 'none';
+                document.getElementById('resortGroup').style.display = 'none';
+                document.getElementById('businessUnitGroup').style.display = 'none';
+                document.getElementById('otherResortGroup').style.display = 'none';
+                document.getElementById('otherBusinessUnitGroup').style.display = 'none';
+
+                // Show relevant fields based on role
+                if (role === 'room_division_manager' || role === 'planning_manager') {
+                    // Resort roles → ask for resort name directly
+                    document.getElementById('resortGroup').style.display = 'block';
+                } else if (role === 'produits_services_manager') {
+                    // BU role → ask for BU directly
+                    document.getElementById('businessUnitGroup').style.display = 'block';
+                } else if (role === 'other') {
+                    // Other → ask for role specification + location
+                    document.getElementById('otherRoleGroup').style.display = 'block';
+                    document.getElementById('locationGroup').style.display = 'block';
+                }
+            });
+
+            // Handle location change for "Other" role
+            document.getElementById('expertLocation').addEventListener('change', (e) => {
+                const location = e.target.value;
+                document.getElementById('otherResortGroup').style.display =
+                    location === 'resort' ? 'block' : 'none';
+                document.getElementById('otherBusinessUnitGroup').style.display =
+                    location === 'business_unit' ? 'block' : 'none';
+            });
+
+            // Auto-save answers
+            document.querySelectorAll('input, select, textarea').forEach(el => {
+                el.addEventListener('change', () => {
+                    saveAnswers();
+                    updateProgress();
+                });
+            });
+        });
+
+        function startQuestionnaire() {
+            // Validate identification
+            const name = document.getElementById('expertName').value;
+            const role = document.getElementById('expertRole').value;
+
+            if (!name || !role) {
+                alert('Veuillez remplir tous les champs obligatoires.');
+                return;
+            }
+
+            let location = '';
+            let resort = null;
+            let businessUnit = null;
+            let finalRole = role;
+
+            // Determine location and required fields based on role
+            if (role === 'room_division_manager' || role === 'planning_manager') {
+                // Resort roles
+                location = 'resort';
+                resort = document.getElementById('expertResort').value;
+                if (!resort) {
+                    alert('Veuillez préciser dans quel resort vous travaillez.');
+                    return;
+                }
+            } else if (role === 'produits_services_manager') {
+                // BU role
+                location = 'business_unit';
+                businessUnit = document.getElementById('expertBusinessUnit').value;
+                if (!businessUnit) {
+                    alert('Veuillez sélectionner votre Business Unit.');
+                    return;
+                }
+            } else if (role === 'other') {
+                // Other role - need to specify role and location
+                finalRole = document.getElementById('expertRoleOther').value;
+                location = document.getElementById('expertLocation').value;
+
+                if (!finalRole) {
+                    alert('Veuillez préciser votre rôle.');
+                    return;
+                }
+
+                if (!location) {
+                    alert('Veuillez sélectionner votre localisation.');
+                    return;
+                }
+
+                // Validate resort/BU for Other role
+                if (location === 'resort') {
+                    resort = document.getElementById('otherResort').value;
+                    if (!resort) {
+                        alert('Veuillez préciser le nom de votre resort.');
+                        return;
+                    }
+                } else if (location === 'business_unit') {
+                    businessUnit = document.getElementById('otherBusinessUnit').value;
+                    if (!businessUnit) {
+                        alert('Veuillez préciser votre Business Unit.');
+                        return;
+                    }
+                }
+            }
+
+            // Save expert data
+            expertData = {
+                name,
+                role: finalRole,
+                location,
+                resort,
+                businessUnit,
+                startDate: new Date().toISOString()
+            };
+
+            saveToLocalStorage();
+            goToStep('questions');
+        }
+
+        function goToStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`step-${step}`).classList.add('active');
+            currentStep = step;
+            window.scrollTo(0, 0);
+
+            if (step === 'summary') {
+                generateSummary();
+            }
+        }
+
+        function saveAnswers() {
+            const newAnswers = {};
+
+            document.querySelectorAll('#questions-container input, #questions-container select, #questions-container textarea').forEach(el => {
+                if (el.name) {
+                    if (el.type === 'radio') {
+                        if (el.checked) {
+                            newAnswers[el.name] = el.value;
+                        }
+                    } else if (el.type === 'checkbox') {
+                        if (!newAnswers[el.name]) {
+                            newAnswers[el.name] = [];
+                        }
+                        if (el.checked) {
+                            newAnswers[el.name].push(el.value);
+                        }
+                    } else {
+                        if (el.value) {
+                            newAnswers[el.name] = el.value;
+                        }
+                    }
+                }
+            });
+
+            // Merge with existing data (don't lose radio values)
+            Object.keys(newAnswers).forEach(key => {
+                answersData[key] = newAnswers[key];
+            });
+
+            saveToLocalStorage();
+        }
+
+        function updateProgress() {
+            const totalQuestions = document.querySelectorAll('#questions-container [name]:not([name$="_comment"])').length;
+            const answeredQuestions = Object.keys(answersData).filter(k => {
+                if (k.includes('_comment')) return false;
+                const val = answersData[k];
+                if (Array.isArray(val)) return val.length > 0;
+                return val && val !== '';
+            }).length;
+            const percent = totalQuestions > 0 ? Math.round((answeredQuestions / totalQuestions) * 100) : 0;
+
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressPercent').textContent = percent + '%';
+            document.getElementById('answeredCount').textContent = answeredQuestions;
+            document.getElementById('totalCount').textContent = totalQuestions;
+
+            // Update question cards
+            document.querySelectorAll('.question-card').forEach(card => {
+                const inputs = card.querySelectorAll('input:not([name$="_comment"]), select, textarea:not([name$="_comment"])');
+                let hasAnswer = false;
+                inputs.forEach(input => {
+                    if (input.name && answersData[input.name]) {
+                        const val = answersData[input.name];
+                        if (Array.isArray(val) ? val.length > 0 : val !== '') {
+                            hasAnswer = true;
+                        }
+                    }
+                });
+                if (hasAnswer) {
+                    card.classList.add('answered');
+                } else {
+                    card.classList.remove('answered');
+                }
+            });
+        }
+
+        function generateSummary() {
+            saveAnswers();
+
+            const totalQuestions = document.querySelectorAll('[name]').length;
+            const answeredQuestions = Object.keys(answersData).filter(k => answersData[k] && answersData[k] !== '').length;
+            const percent = totalQuestions > 0 ? Math.round((answeredQuestions / totalQuestions) * 100) : 0;
+            const comments = Object.keys(answersData).filter(k => k.includes('_comment') && answersData[k]).length;
+
+            document.getElementById('summaryAnswered').textContent = answeredQuestions;
+            document.getElementById('summaryTotal').textContent = totalQuestions;
+            document.getElementById('summaryPercent').textContent = percent + '%';
+            document.getElementById('summaryComments').textContent = comments;
+
+            // Generate detailed summary
+            let summaryHTML = '<div class="card">';
+            summaryHTML += '<h3 class="card-title">Détail des réponses</h3>';
+
+            // Group by question
+            const questions = {};
+            Object.keys(answersData).forEach(key => {
+                const questionId = key.split('_').slice(0, 2).join('_');
+                if (!questions[questionId]) {
+                    questions[questionId] = {};
+                }
+                questions[questionId][key] = answersData[key];
+            });
+
+            Object.keys(questions).forEach(qId => {
+                summaryHTML += `<div style="margin-bottom: var(--spacing-m); padding: var(--spacing-m); background: var(--color-surface-secondary); border-radius: var(--radius-m);">`;
+                summaryHTML += `<strong>${qId.toUpperCase()}</strong><br>`;
+
+                Object.keys(questions[qId]).forEach(key => {
+                    const value = questions[qId][key];
+                    if (value) {
+                        summaryHTML += `<div style="margin-left: var(--spacing-m); font-size: 13px;">${key}: ${value}</div>`;
+                    }
+                });
+
+                summaryHTML += `</div>`;
+            });
+
+            summaryHTML += '</div>';
+            document.getElementById('summaryContent').innerHTML = summaryHTML;
+        }
+
+        function submitQuestionnaire() {
+            saveAnswers();
+
+            const submissionId = 'ODYSSEY-' + Date.now();
+            document.getElementById('submissionId').textContent = submissionId;
+
+            const fullData = {
+                id: submissionId,
+                expert: expertData,
+                answers: answersData,
+                submittedAt: new Date().toISOString()
+            };
+
+            // Save to localStorage
+            const submissions = JSON.parse(localStorage.getItem('odyssey_submissions') || '[]');
+            submissions.push(fullData);
+            localStorage.setItem('odyssey_submissions', JSON.stringify(submissions));
+
+            goToStep('success');
+        }
+
+        function downloadJSON() {
+            const fullData = {
+                id: document.getElementById('submissionId').textContent,
+                expert: expertData,
+                answers: answersData,
+                submittedAt: new Date().toISOString()
+            };
+
+            const blob = new Blob([JSON.stringify(fullData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `odyssey-responses-${expertData.name.replace(/\s+/g, '-')}-${Date.now()}.json`;
+            a.click();
+        }
+
+        function downloadCSV() {
+            let csv = 'Question,Réponse\n';
+            Object.keys(answersData).forEach(key => {
+                csv += `"${key}","${answersData[key]}"\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `odyssey-responses-${expertData.name.replace(/\s+/g, '-')}-${Date.now()}.csv`;
+            a.click();
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('odyssey_expert', JSON.stringify(expertData));
+            localStorage.setItem('odyssey_answers', JSON.stringify(answersData));
+        }
+
+        function loadFromLocalStorage() {
+            const savedExpert = localStorage.getItem('odyssey_expert');
+            const savedAnswers = localStorage.getItem('odyssey_answers');
+
+            if (savedExpert) {
+                expertData = JSON.parse(savedExpert);
+            }
+
+            if (savedAnswers) {
+                answersData = JSON.parse(savedAnswers);
+                // Restore form values
+                Object.keys(answersData).forEach(key => {
+                    const el = document.querySelector(`[name="${key}"]`);
+                    if (el) {
+                        if (el.type === 'radio') {
+                            document.querySelector(`[name="${key}"][value="${answersData[key]}"]`).checked = true;
+                        } else {
+                            el.value = answersData[key];
+                        }
+                    }
+                });
+            }
+        }
+
+        function toggleLate18h(show) {
+            document.getElementById('late18hPrices').style.display = show ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>
